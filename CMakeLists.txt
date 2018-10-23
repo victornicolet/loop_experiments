@@ -1,0 +1,37 @@
+cmake_minimum_required(VERSION 3.5)
+project(NestedLoopsExperiments)
+
+link_libraries(tbb)
+
+set(CMAKE_BUILD_DIRECTORY build)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -ltbb -fopenmp")
+set(CMAKE_SOURCE_DIR src)
+
+set(SOURCE_FILES src/param.h src/StopWatch.h src/StopWatch.cpp src/datagen.cpp src/datagen.h)
+# All experiment executables start with prefix Exp
+add_executable(Exp2DSum src/sum2d.cpp ${SOURCE_FILES})
+add_executable(Exp2DSorted src/sorted2d.cpp ${SOURCE_FILES} src/datagen.cpp)
+add_executable(ExpGradient1 src/gradient1.cpp ${SOURCE_FILES})
+add_executable(ExpGradient2 src/gradient2.cpp ${SOURCE_FILES})
+add_executable(ExpMinMax src/minmax.cpp ${SOURCE_FILES})
+add_executable(ExpMaxDist src/max_dist.cpp ${SOURCE_FILES})
+add_executable(ExpMinMaxCol src/minmax_col.cpp ${SOURCE_FILES})
+add_executable(ExpMaxLeftRect src/max_left_rec.cpp ${SOURCE_FILES})
+add_executable(ExpMaxTopStrip src/max_top_strip.cpp ${SOURCE_FILES})
+add_executable(ExpMaxBottomStrip src/max_bottom_strip.cpp ${SOURCE_FILES})
+add_executable(ExpMaxSegStrip src/max_seg_strip.cpp ${SOURCE_FILES})
+add_executable(ExpMaxTopBox src/max_top_box.cpp ${SOURCE_FILES})
+add_executable(ExpMaxTopBoxInPar src/max_top_box_in_par.cpp ${SOURCE_FILES})
+add_executable(ExpMaxBottomBox src/max_bot_box.cpp ${SOURCE_FILES})
+add_executable(ExpMaxSegBox src/max_seg_box.cpp ${SOURCE_FILES})
+add_executable(ExpMTLR src/mtlr.cpp ${SOURCE_FILES})
+add_executable(ExpMTRR src/mtrr.cpp ${SOURCE_FILES})
+add_executable(ExpSaddlePoint src/saddle_point.cpp ${SOURCE_FILES})
+add_executable(ExpMode src/mode.cpp ${SOURCE_FILES})
+add_executable(ExpOverlapping src/overlapping_ranges.cpp ${SOURCE_FILES})
+add_executable(ExpPyramidRange src/pyramid_range.cpp  ${SOURCE_FILES})
+add_executable(ExpIncreasingRange src/increasing_range.cpp ${SOURCE_FILES})
+add_executable(ExpMaxBalSub src/max_balanced_substr.cpp ${SOURCE_FILES})
+# OMP Experiment: compare TBB / OpenMP performance on a few benchmarks
+add_executable(OMPExpMaxTopBox src/omp_mtb.cpp ${SOURCE_FILES})
+
