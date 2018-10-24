@@ -28,6 +28,25 @@ int** create_rand_int_2D_matrix(long m, long n) {
             input[i][j] =  (int)dist122(rng) - 122;
         }
     }
+
+    return input;
+}
+
+
+int* create_rand_int_1D_array(long n) {
+    int* input;
+
+    input = (int*) malloc(n * sizeof(int));
+
+    std::mt19937 rng;
+    rng.seed(std::random_device()());
+    std::uniform_int_distribution<std::mt19937::result_type> dist122(0, 543);
+
+    for(long i = 0; i < n; i++) {
+        input[i] =  (int)dist122(rng) - 255;
+    }
+
+    return input;
 }
 
 int*** create_rand_int_3D_matrix(long l, long m, long n) {
@@ -54,6 +73,8 @@ int*** create_rand_int_3D_matrix(long l, long m, long n) {
             }
         }
     }
+
+    return input;
 }
 
 
@@ -74,5 +95,6 @@ bool** create_rand_bool_2D_matrix(long m, long n){
         }
     }
 
+    return A;
 }
 

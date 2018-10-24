@@ -5,6 +5,7 @@
 #ifndef NESTEDLOOPSEXPERIMENTS_DATAGEN_H
 #define NESTEDLOOPSEXPERIMENTS_DATAGEN_H
 
+int* create_rand_int_1D_array(long n);
 int** create_rand_int_2D_matrix(long m, long n);
 int*** create_rand_int_3D_matrix(long l, long m, long n);
 bool** create_rand_bool_2D_matrix(long m, long n);
