@@ -77,6 +77,21 @@ int*** create_rand_int_3D_matrix(long l, long m, long n) {
     return input;
 }
 
+bool* create_rand_bool_1D_array(long n){
+    bool* A;
+    A = (bool*) malloc(n * sizeof(bool));
+
+    std::mt19937 rng;
+    rng.seed(std::random_device()());
+    std::uniform_int_distribution<std::mt19937::result_type> dist122(0, 255);
+
+    for(long i = 0; i < n; i++) {
+        A[i] = ((int) dist122(rng) - 122) > 0;
+    }
+
+    return A;
+}
+
 
 bool** create_rand_bool_2D_matrix(long m, long n){
     bool** A;

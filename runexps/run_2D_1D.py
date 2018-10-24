@@ -18,4 +18,5 @@ for i in range(0, 5):
     for n, m in sizes:
         with open('data/explog_2d1d.csv', 'a+') as myoutfile:
             print("SIZE: %i x %i.\n" % (n, m))
-            call(["./" + "ExpMode", str(n), str(m)], stdout=myoutfile)
+            # call(["./" + "ExpMode", str(n), str(m)], stdout=myoutfile)
+            call(["./" + "ExpMaxBalSub", str(n), str(m)], stdout=myoutfile)
