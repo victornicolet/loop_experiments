@@ -32,8 +32,10 @@ fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
 
 for s, size_group in size_groups:
-    size_group.plot(x='NUM_THREADS',
-                                      y=['TBB_TIME_mean_speedup', 'OMP_TIME_mean_speedup'], label=['TBB ' + str(s), 'OMP ' + str(s)], ax=ax)
+    exp_name, n, n2 = s
+    print(n)
+    if int(n) > 50000:
+        size_group.plot(x='NUM_THREADS', y=['TBB_TIME_mean_speedup', 'OMP_TIME_mean_speedup'], label=['TBB ' + str(s), 'OMP ' + str(s)], ax=ax)
 
     group_plot = size_group.plot.bar(x='NUM_THREADS',
                     y=['TBB_TIME_mean_speedup', 'OMP_TIME_mean_speedup'], label=['TBB ' + str(s), 'OMP ' + str(s)])
