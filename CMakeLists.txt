@@ -32,6 +32,7 @@ add_executable(ExpOverlapping src/overlapping_ranges.cpp ${SOURCE_FILES})
 add_executable(ExpPyramidRange src/pyramid_range.cpp  ${SOURCE_FILES})
 add_executable(ExpIncreasingRange src/increasing_range.cpp ${SOURCE_FILES})
 add_executable(ExpMaxBalSub src/max_balanced_substr.cpp ${SOURCE_FILES})
+add_executable(ExpGlobalBal src/global_bal.cpp ${SOURCE_FILES})
 # OMP Experiment: compare TBB / OpenMP performance on a few benchmarks
 add_executable(OMPExpMaxTopBox src/omp_mtb.cpp ${SOURCE_FILES})
 

@@ -56,3 +56,23 @@ int*** create_rand_int_3D_matrix(long l, long m, long n) {
     }
 }
 
+
+bool** create_rand_bool_2D_matrix(long m, long n){
+    bool** A;
+    A = (bool**) malloc(n * sizeof(bool*));
+    for(long i =0; i < n; i++) {
+        A[i] = (bool*) malloc(sizeof(bool) * m);
+    }
+
+#pragma omp parallel for
+    for(long i = 0; i < n; i++) {
+        std::mt19937 rng;
+        rng.seed(std::random_device()());
+        std::uniform_int_distribution<std::mt19937::result_type> dist122(0, 255);
+        for(long j =0; j < m; j++){
+            A[i][j] = ((int) dist122(rng) - 122) > 0;
+        }
+    }
+
+}
+
