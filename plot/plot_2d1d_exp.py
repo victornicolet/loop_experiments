@@ -28,14 +28,20 @@ def f(size_group):
 size_groups = all_groups.groupby(['ExpName', 'N', 'N2'])
 size_groups = [(s, f(x)) for s, x in size_groups]
 
-fig = plt.figure()
-ax = fig.add_subplot(1,1,1)
+ax = {}
+fig = {}
+
+for (exp_name, n, n2), sgroup in size_groups:
+    if exp_name not in ax:
+        fig = plt.figure()
+        ax[exp_name] = fig.add_subplot(1, 1, 1)
+        ax[exp_name].set_ylim(0, 16)
 
 for s, size_group in size_groups:
     exp_name, n, n2 = s
     print(n)
     if int(n) > 50000:
-        size_group.plot(x='NUM_THREADS', y=['TBB_TIME_mean_speedup', 'OMP_TIME_mean_speedup'], label=['TBB ' + str(s), 'OMP ' + str(s)], ax=ax)
+        size_group.plot(x='NUM_THREADS', y=['TBB_TIME_mean_speedup', 'OMP_TIME_mean_speedup'], label=['TBB ' + str(s), 'OMP ' + str(s)], ax=ax[exp_name])
 
     group_plot = size_group.plot.bar(x='NUM_THREADS',
                     y=['TBB_TIME_mean_speedup', 'OMP_TIME_mean_speedup'], label=['TBB ' + str(s), 'OMP ' + str(s)])
@@ -43,5 +49,5 @@ for s, size_group in size_groups:
     group_plot.set_title(str(s))
     group_plot.set_ylim(0, 16)
 
-ax.set_ylim(0, 16)
+
 plt.show()

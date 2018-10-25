@@ -1,12 +1,11 @@
-
 from subprocess import call
 
 
 sizes_distrib = [
     [20, 0],
     [14, 0],
-    # [21, 0],
-    # [17, 0],
+    [21, 0],
+    [17, 0]
 ]
 
 sizes_factor = 5000
