@@ -8,6 +8,9 @@
 #include "param.h"
 #include "datagen.h"
 
+#define N_20SEC 100000
+#define M_20SEC 30000
+
 using namespace std;
 using namespace tbb;
 
@@ -174,8 +177,8 @@ int main(int argc, char** argv) {
         custom_sizes = true;
     } else {
         // Data size:
-        n = 2 << EXPERIMENTS_2D_N;
-        m = 2 << EXPERIMENTS_2D_M;
+        n = N_20SEC;
+        m = M_20SEC;
     }
 
     // Data allocation and initialization
