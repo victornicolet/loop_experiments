@@ -1,7 +1,8 @@
 from subprocess import call
 
-experiments = [ # 'Exp2DSorted',  
-    # 'Exp2DSum',
+experiments = [
+    ('Exp2DSorted', int(10e6), int(10e4), 0),
+    ('Exp2DSum', int(10e6), int(10e4), 0),
     # 'ExpGradient1',
     # 'ExpGradient2',
     # 'ExpMinMax',
@@ -15,7 +16,7 @@ experiments = [ # 'Exp2DSorted',
     # 'ExpMaxTopBoxInPar'
     # 'ExpMaxBottomBox',
     # 'ExpMaxSegBox',
-    'ExpMTLR',
+    #'ExpMTLR',
  #   'ExpMTRR',
   #  'ExpSaddlePoint',
 #    'ExpMode'
@@ -25,11 +26,8 @@ experiments = [ # 'Exp2DSorted',
     # 'ExpIncreasingRange'
 ]
 
-num_cores = [0, 1, 2, 3, 4, 6, 8, 10, 12, 16]
-# 24, 32, 46, 58, 64]
 
-
-for expr in experiments:
-    for nc in num_cores:
-        with open('explog.csv', 'a+') as myoutfile:
-            call(["./" + expr, str(nc)], stdout=myoutfile)
+for expr, n, m, l in experiments:
+    for i in range(1,10):
+        with open('data/explog.csv', 'a+') as myoutfile:
+            call(["./" + expr, str(n), str(m), str(l)], stdout=myoutfile)
