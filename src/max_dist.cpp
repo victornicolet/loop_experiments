@@ -2,6 +2,7 @@
 #include <iostream>
 #include "StopWatch.h"
 #include "param.h"
+#include "datagen.h"
 
 using namespace std;
 using namespace tbb;
@@ -11,17 +12,17 @@ struct MaxDist {
     int *A;
     int *B;
     int md;
-    long m;
+    long lb;
 
-    MaxDist(int* _input1, int* _input2, long rl) : A(_input1), B(_input2), m(rl), md(INT_MIN){}
+    MaxDist(int* _input1, int* _input2, long rl) : A(_input1), B(_input2), lb(rl), md(INT_MIN){}
 
-    MaxDist(MaxDist& s, split) {md= INT_MIN; A = s.A;  B = s.B; m = s.m; }
+    MaxDist(MaxDist& s, split) {md= INT_MIN; A = s.A;  B = s.B; lb = s.lb; }
 
     void operator()( const blocked_range<long>& r ) {
         int _md = md;
 
         for(long i = r.begin(); i != r.end(); ++i) {
-            for(long j = 0; j < m-1; j++) {
+            for(long j = 0; j < lb; j++) {
                 if (A[i] - B[j] > 0) {
                     _md = max(_md, A[i] - B[j]);
                 } else {
@@ -38,15 +39,11 @@ struct MaxDist {
 
 };
 
-double do_seq(int *A, int *B, long m, long n) {
-    StopWatch t;
-    t.start();
-    int sum= 0;
-
+int seq_implem(int *A, int *B, long la, long lb) {
     int md = INT_MIN;
 
-    for(long i = 0; i < n; ++i) {
-        for(long j = 0; j < m-1; j++) {
+    for(long i = 0; i < la; ++i) {
+        for(long j = 0; j < lb; j++) {
             if (A[i] - B[j] > 0) {
                 md = max(md, A[i] - B[j]);
             } else {
@@ -56,61 +53,72 @@ double do_seq(int *A, int *B, long m, long n) {
         }
     }
 
-    return t.stop();
+    return md;
 }
 
-double do_par(int *a, int *b, long m, long n, int num_cores) {
+double do_seq(int *A, int* B, long la, long lb) {
+    StopWatch t;
+    seq_implem(A, B, la, lb);
+    double elapsed = 0.0;
+    for(int i = 0; i < NUM_REPEAT; i++) {
+        t.start();
+        seq_implem(A, B, la, lb);
+        elapsed += t.stop();
+    }
+    return elapsed / NUM_REPEAT;
+}
+
+double do_par(int *a, int *b, long la, long lb, int num_cores) {
     StopWatch t;
     double elapsed = 0.0;
     // TBB Initialization with num_cores cores
     static task_scheduler_init init(task_scheduler_init::deferred);
     init.initialize(num_cores, UT_THREAD_DEFAULT_STACK_SIZE);
 
-    MaxDist sum(a, b, m);
+    MaxDist maxDist(a, b, lb);
+    parallel_reduce(blocked_range<long>(0, la-1), maxDist);
 
     for(int i = 0; i < NUM_REPEAT ; i++){
         t.start();
-        parallel_reduce(blocked_range<long>(0, n-1), sum);
+        parallel_reduce(blocked_range<long>(0, la-1), maxDist);
         elapsed += t.stop();
     }
+
+    init.terminate();
 
     return elapsed / NUM_REPEAT;
 }
 
+
 int main(int argc, char** argv) {
     // Data size:
-    long n = 2 << EXPERIMENTS_2D_N;
-    long m = 2 << EXPERIMENTS_2D_M;
-    // Data allocation and initialization
-    int *input1;
-    int * input2;
-    input1 = new int[n];
-    input2 = new int[m];
-    for(long i = 0; i < n; i++) {
-        input1[i] = rand() % 255 - 12;
-    }
-    for(long j =0; j < m; j++){
-        input2[j] = rand() % 40;
-    }
-
-
-    if(argc <= 1) {
-        cout << "Usage: Gradient1 [NUMBER OF CORES]" << endl;
+    if(argc < 3) {
+        cout << "Usage:./ExpMaxDist [LEN_INPUT1] [LEN_INPUT2]" << endl;
         return  -1;
     }
 
-    int num_cores = atoi(argv[1]);
-    double exp_time = 0.0;
+    int l1 = atoi(argv[1]);
+    int l2 = atoi(argv[2]);
 
-    if (num_cores > 0) {
-        // Do the parallel experiment.
-        exp_time = do_par(input1, input2, m, n, num_cores);
-    } else {
-        // Do the sequential experiment.
-        exp_time = do_seq(input1, input2, m, n);
+    // Data allocation and initialization
+    int *input1, *input2;
+    input1 = create_rand_int_1D_array(l1);
+    input2 = create_rand_int_1D_array(l2);
+
+    for(int num_threads = 0; num_threads <= EXP_MAX_CORES; num_threads++) {
+        double exp_time = 0.0;
+
+        if (num_threads > 0) {
+            // Do the parallel experiment.
+            exp_time = do_par(input1, input2, l1, l2, num_threads);
+        } else {
+            // Do the sequential experiment.
+            exp_time = do_seq(input1, input2, l1, l2);
+        }
+
+        cout << "max-dist" << "," << num_threads << "," << exp_time << endl;
     }
-
-    cout <<argv[0] << "," << num_cores << "," << exp_time << endl;
 
     return 0;
 }
+

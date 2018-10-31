@@ -7,9 +7,6 @@
 using namespace std;
 using namespace tbb;
 
-static int __min_int = static_cast<int>(INT64_MIN);
-static int __max_int = static_cast<int>(INT64_MAX);
-
 struct Sorted2D {
     int **A;
     bool sorted;
@@ -18,12 +15,12 @@ struct Sorted2D {
     long m;
 
     Sorted2D(int** _input, long rl) :
-            A(_input), m(rl), sorted(true), prev(__max_int), first(__min_int){}
+            A(_input), m(rl), sorted(true), prev(INT_MIN), first(INT_MIN){}
 
     Sorted2D(Sorted2D& s, split) {
         sorted = true;
-        prev = __max_int;
-        first = __min_int;
+        prev = INT_MIN;
+        first = INT_MIN;
         A = s.A;
         m = s.m;
     }
@@ -33,7 +30,7 @@ struct Sorted2D {
         int loc_prev = prev;
         for(long i = r.begin(); i != r.end(); ++i) {
             for(long j = 0; j < m-1; j++) {
-                bl = bl && loc_prev > A[i][j];
+                bl = bl && loc_prev < A[i][j];
                 loc_prev = A[i][j];
             }
         }
@@ -43,8 +40,7 @@ struct Sorted2D {
     }
 
     void join(Sorted2D& rhs) {
-        sorted = sorted && rhs.sorted && rhs.prev > first;
-        first = rhs.first;
+        sorted = sorted && rhs.sorted && rhs.prev < first;
     }
 
 };
@@ -52,12 +48,12 @@ struct Sorted2D {
 
 bool implem_seq(int **A, long m, long n) {
     bool b = true;
+    int prev = INT_MIN;
 
     for(long i = 0; i < n - 1; ++i) {
         for(long j = 0; j < m-1; j++) {
-            b = b &&
-                (A[i+1][j] > A[i][j]) &&
-                (A[i][j+1] > A[i][j]);
+            b = b && (A[i][j] > prev);
+            prev = A[i][j];
         }
     }
 

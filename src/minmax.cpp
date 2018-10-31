@@ -2,10 +2,15 @@
 #include <iostream>
 #include "StopWatch.h"
 #include "param.h"
+#include "datagen.h"
 
 using namespace std;
 using namespace tbb;
 
+struct minmax_res {
+    int amin;
+    int amax;
+};
 
 struct MinMax {
     int **A;
@@ -42,7 +47,8 @@ struct MinMax {
     }
 };
 
-double do_seq(int **A, long m, long n) {
+
+minmax_res seq_implem(int **A, long m, long n) {
     StopWatch t;
     t.start();
     int amax = INT_MIN;
@@ -56,8 +62,22 @@ double do_seq(int **A, long m, long n) {
         amax = max(amax, amin);
     }
 
-    return t.stop();
+    return {amin, amax};
 }
+
+
+double do_seq(int **A, long m, long n) {
+    StopWatch t;
+    seq_implem(A,m,n);
+    double elapsed = 0.0;
+    for(int i = 0; i < NUM_REPEAT; i++) {
+        t.start();
+        seq_implem(A, m, n);
+        elapsed += t.stop();
+    }
+    return elapsed / NUM_REPEAT;
+}
+
 
 double do_par(int **input, long m, long n, int num_cores) {
     StopWatch t;
@@ -66,48 +86,48 @@ double do_par(int **input, long m, long n, int num_cores) {
     static task_scheduler_init init(task_scheduler_init::deferred);
     init.initialize(num_cores, UT_THREAD_DEFAULT_STACK_SIZE);
 
-    MinMax minMax(input, m);
+    MinMax mm(input, m);
+    parallel_reduce(blocked_range<long>(0, n-1), mm);
 
     for(int i = 0; i < NUM_REPEAT ; i++){
         t.start();
-        parallel_reduce(blocked_range<long>(0, n), minMax);
+        parallel_reduce(blocked_range<long>(0, n-1), mm);
         elapsed += t.stop();
     }
+
+    init.terminate();
 
     return elapsed / NUM_REPEAT;
 }
 
+
 int main(int argc, char** argv) {
     // Data size:
-    long n = 2 << EXPERIMENTS_2D_N;
-    long m = 2 << EXPERIMENTS_2D_M;
-    // Data allocation and initialization
-    int **input;
-    input = (int**) malloc(sizeof(int*) * n);
-    for(long i = 0; i < n; i++) {
-        input[i] = (int*) malloc(sizeof(int) * m);
-        for(long j =0; j < m; j++){
-            input[i][j] = (rand() % 255) - 125;
-        }
-    }
-
-    if(argc <= 1) {
-        cout << "Usage: MinMax [NUMBER OF CORES]" << endl;
+    if(argc < 3) {
+        cout << "Usage:./ExpMinMax [NUM_ROWS] [NUM_COLS]" << endl;
         return  -1;
     }
 
-    int num_cores = atoi(argv[1]);
-    double exp_time = 0.0;
+    int n = atoi(argv[1]);
+    int m = atoi(argv[2]);
+    // Data allocation and initialization
+    int **input;
+    input = create_rand_int_2D_matrix(m,n);
 
-    if (num_cores > 0) {
-        // Do the parallel experiment.
-        exp_time = do_par(input, m, n, num_cores);
-    } else {
-        // Do the sequential experiment.
-        exp_time = do_seq(input, m, n);
+
+    for(int num_threads = 0; num_threads <= EXP_MAX_CORES; num_threads++) {
+        double exp_time = 0.0;
+
+        if (num_threads > 0) {
+            // Do the parallel experiment.
+            exp_time = do_par(input, m, n, num_threads);
+        } else {
+            // Do the sequential experiment.
+            exp_time = do_seq(input, m, n);
+        }
+
+        cout << "minmax" << "," << num_threads << "," << exp_time << endl;
     }
-
-    cout << argv[0] << "," << num_cores << "," << exp_time << endl;
 
     return 0;
 }

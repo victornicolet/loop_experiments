@@ -2,10 +2,15 @@
 #include <iostream>
 #include "StopWatch.h"
 #include "param.h"
+#include "datagen.h"
 
 using namespace std;
 using namespace tbb;
 
+struct mbs_res {
+    int sum;
+    int mbs;
+};
 
 struct MaxBottomStrip {
     int **A;
@@ -42,7 +47,7 @@ struct MaxBottomStrip {
 
 };
 
-double do_seq(int **A, long m, long n) {
+mbs_res seq_implem(int **A, long m, long n) {
 
     int* rects = (int*) calloc(m, sizeof(int));
 
@@ -62,61 +67,72 @@ double do_seq(int **A, long m, long n) {
           mbs = max(mbs + ss, 0);
         }
 
-
-    return t.stop();
+    return {ss, mbs};
 }
+
+
+double do_seq(int **A, long m, long n) {
+    StopWatch t;
+    seq_implem(A,m,n);
+    double elapsed = 0.0;
+    for(int i = 0; i < NUM_REPEAT; i++) {
+        t.start();
+        seq_implem(A, m, n);
+        elapsed += t.stop();
+    }
+    return elapsed / NUM_REPEAT;
+}
+
 
 double do_par(int **input, long m, long n, int num_cores) {
     StopWatch t;
     double elapsed = 0.0;
-    // Any specific initalization of state variables must be done here.
-
     // TBB Initialization with num_cores cores
     static task_scheduler_init init(task_scheduler_init::deferred);
     init.initialize(num_cores, UT_THREAD_DEFAULT_STACK_SIZE);
 
-    MaxBottomStrip mlr(input , m);
+    MaxBottomStrip mm(input, m);
+    parallel_reduce(blocked_range<long>(0, n-1), mm);
 
     for(int i = 0; i < NUM_REPEAT ; i++){
         t.start();
-        parallel_reduce(blocked_range<long>(0, n-1), mlr);
+        parallel_reduce(blocked_range<long>(0, n-1), mm);
         elapsed += t.stop();
     }
+
+    init.terminate();
 
     return elapsed / NUM_REPEAT;
 }
 
+
 int main(int argc, char** argv) {
     // Data size:
-    long n = 2 << EXPERIMENTS_2D_N;
-    long m = 2 << EXPERIMENTS_2D_M;
-    // Data allocation and initialization
-    int **input;
-    input = (int**) malloc(sizeof(int*) * n);
-    for(long i = 0; i < n; i++) {
-        input[i] = (int*) malloc(sizeof(int) * m);
-        for(long j =0; j < m; j++){
-            input[i][j] = static_cast<int>(i + j);
-        }
-    }
-
-    if(argc <= 1) {
-        cout << "Usage: Gradient1 [NUMBER OF CORES]" << endl;
+    if(argc < 3) {
+        cout << "Usage:./ExpMinMax [NUM_ROWS] [NUM_COLS]" << endl;
         return  -1;
     }
 
-    int num_cores = atoi(argv[1]);
-    double exp_time = 0.0;
+    int n = atoi(argv[1]);
+    int m = atoi(argv[2]);
+    // Data allocation and initialization
+    int **input;
+    input = create_rand_int_2D_matrix(m,n);
 
-    if (num_cores > 0) {
-        // Do the parallel experiment.
-        exp_time = do_par(input, m, n, num_cores);
-    } else {
-        // Do the sequential experiment.
-        exp_time = do_seq(input, m, n);
+
+    for(int num_threads = 0; num_threads <= EXP_MAX_CORES; num_threads++) {
+        double exp_time = 0.0;
+
+        if (num_threads > 0) {
+            // Do the parallel experiment.
+            exp_time = do_par(input, m, n, num_threads);
+        } else {
+            // Do the sequential experiment.
+            exp_time = do_seq(input, m, n);
+        }
+
+        cout << "max-bot-strip" << "," << num_threads << "," << exp_time << endl;
     }
-
-    cout <<argv[0] << "," << num_cores << "," << exp_time << endl;
 
     return 0;
 }
