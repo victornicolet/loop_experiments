@@ -28,6 +28,6 @@ experiments = [
 
 
 for expr, n, m, l in experiments:
-    for i in range(1, 20):
+    for i in range(1, 2):
         with open('data/explog.csv', 'a+') as myoutfile:
             call(["./" + expr, str(n), str(m), str(l)], stdout=myoutfile)
