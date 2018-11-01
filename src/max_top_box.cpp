@@ -3,6 +3,7 @@
 #include "StopWatch.h"
 #include "param.h"
 #include "omp.h"
+#include "datagen.h"
 
 using namespace std;
 using namespace tbb;
@@ -41,165 +42,99 @@ struct MaxTopBox {
 
 };
 
-double do_seq(int ***A, long l, long m, long n) {
+struct mtb_result {
+    int tbsum;
+    int mtbox;
+};
+
+
+mtb_result seq_implem(int ***A, long l, long m, long n) {
 
 
     StopWatch t;
     t.start();
-    int top_Box_sum = 0;
-    int max_top_Box = 0;
+    int tbsum = 0;
+    int mtbox = 0;
 
     for(long i = 0; i < n; i++)
     {
       for(long j = 0; j < m; j++)
         {
             for(long k = 0; k < l; k++){
-                top_Box_sum += A[i][j][k];
+                tbsum += A[i][j][k];
             }
         }
-        max_top_Box = max(max_top_Box, top_Box_sum);
+        mtbox = max(mtbox, tbsum);
     }
 
-    return t.stop();
+    return {tbsum, mtbox};
 }
 
-struct mtb_result {
-    int max_top_Box;
-    int top_Box_sum;
-};
 
-mtb_result mtb_join(mtb_result a, mtb_result b) {
-    return {
-        max(a.max_top_Box, b.max_top_Box + a.top_Box_sum),
-        a.top_Box_sum + b.top_Box_sum
-    };
-}
-
-double parallel_omp(int ***A, long l, long m, long n, int num_cores) {
+double do_seq(int ***A, long l, long m, long n) {
     StopWatch t;
+    seq_implem(A, l, m, n);
     double elapsed = 0.0;
-    t.start();
-
-#pragma omp declare reduction \
-  (join:mtb_result:omp_out=mtb_join(omp_out,omp_in)) \
-  initializer(omp_priv={INT_MIN, 0})
-
-        mtb_result mtb = {INT_MIN, 0};
-
-#pragma omp parallel for reduction(join:mtb)
-        for (long i = 0; i < n; i++) {
-            for (long j = 0; j < m; j++) {
-                for (long k = 0; k < l; k++) {
-                    mtb.top_Box_sum += A[i][j][k];
-                }
-            }
-            mtb.max_top_Box = max(mtb.max_top_Box, mtb.top_Box_sum);
-        }
-        elapsed = t.stop();
-
-    return elapsed;
-}
-
-double do_par(int ***input, long l, long m, long n, int num_cores) {
-    StopWatch t;
-    double elapsed = 0.0;
-    // TBB Initialization with num_cores cores
-    static task_scheduler_init init(task_scheduler_init::deferred);
-    init.initialize(num_cores, UT_THREAD_DEFAULT_STACK_SIZE);
-
-    MaxTopBox mlr(input, l, m);
-
-    for(int i = 0; i < NUM_REPEAT ; i++){
+    for(int i = 0; i < NUM_REPEAT; i++) {
         t.start();
-        parallel_reduce(blocked_range<long>(0, n-1), mlr);
+        seq_implem(A, l, m, n);
         elapsed += t.stop();
     }
-
     return elapsed / NUM_REPEAT;
 }
 
 
-double do_par_omp(int ***input, long l, long m, long n, int num_cores) {
+double do_par(int ***A, long l, long m, long n, int num_cores) {
     StopWatch t;
     double elapsed = 0.0;
     // TBB Initialization with num_cores cores
     static task_scheduler_init init(task_scheduler_init::deferred);
     init.initialize(num_cores, UT_THREAD_DEFAULT_STACK_SIZE);
 
-    MaxTopBox mlr(input, m, l);
+    MaxTopBox mtbx(A, m, l);
+    parallel_reduce(blocked_range<long>(0, n-1), mtbx);
 
     for(int i = 0; i < NUM_REPEAT ; i++){
         t.start();
-        parallel_omp(input, l, m, n, num_cores);
+        parallel_reduce(blocked_range<long>(0, n-1), mtbx);
         elapsed += t.stop();
     }
+
+    init.terminate();
 
     return elapsed / NUM_REPEAT;
 }
 
 
 int main(int argc, char** argv) {
-
-    bool custom_sizes = false;
-
-    if(argc <= 1) {
-        cout << "Usage: xx [NUMBER OF CORES] [N] [L] [M]" << endl;
+    // Data size:
+    if(argc < 4) {
+        cout << "Usage:./ExpMaxTopBox [NUM_ROWS] [NUM_COLS] [DEPTH]" << endl;
         return  -1;
     }
 
-    long n,m,l;
-    if (argc == 5) {
-        n = atoi(argv[2]);
-        m = atoi(argv[3]);
-        l = atoi(argv[4]);
-        custom_sizes = true;
-    } else {
-        // Data size:
-        n = 2 << EXPERIMENTS_3D_N;
-        m = 2 << EXPERIMENTS_3D_M;
-        l = 2 << EXPERIMENTS_3D_L;
-    }
+    int n = atoi(argv[1]);
+    int m = atoi(argv[2]);
+    int l = atoi(argv[3]);
     // Data allocation and initialization
+    int ***A;
+    A = create_rand_int_3D_matrix(l,m,n);
 
-    int ***input;
-    input = (int***) malloc(sizeof(int**) * n);
-    for(long i = 0; i < n; i++) {
-        input[i] = (int**) malloc(sizeof(int*) * m);
-        for(long j =0; j < m; j++){
-            input[i][j] = (int*) malloc(sizeof(int) * l);
+
+    for(int num_threads = 0; num_threads <= EXP_MAX_CORES; num_threads++) {
+        double exp_time = 0.0;
+
+        if (num_threads > 0) {
+            // Do the parallel experiment.
+            exp_time = do_par(A, l, m, n, num_threads);
+        } else {
+            // Do the sequential experiment.
+            exp_time = do_seq(A, l, m, n);
         }
+
+        cout << "max-top-box" << "," << num_threads << "," << exp_time << endl;
     }
 
-#pragma omp parallel for
-    for(long i = 0; i < n; i++) {
-#pragma omp parallel for
-        for(long j =0; j < m; j++){
-            for(long k = 0; k < l; k++)
-            {
-                input[i][j][k] =  (rand() % 255) - 122;
-            }
-        }
-    }
-
-
-    int num_cores = atoi(argv[1]);
-    double exp_time = 0.0;
-    double exp_time_omp = 0.0;
-
-    if (num_cores > 0) {
-        // Do the parallel experiment.
-        exp_time = do_par(input, l, m, n, num_cores);
-        exp_time_omp = do_par_omp(input, l, m, n, num_cores);
-    } else {
-        // Do the sequential experiment.
-        exp_time = do_seq(input, l, m, n);
-    }
-
-    if(custom_sizes) {
-        cout << argv[0] << "," << n << "," << m << "," << l << "," << num_cores
-             << ", " << exp_time <<"," << exp_time_omp << endl;
-    } else {
-        cout << argv[0] << "," << num_cores << "," << exp_time  <<","<< exp_time_omp<< endl;
-    }
     return 0;
 }
+

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "StopWatch.h"
 #include "param.h"
+#include "datagen.h"
 
 using namespace std;
 using namespace tbb;
@@ -14,19 +15,18 @@ struct MaxSegBox {
 // Insert additional parameters here
     int mbs;
     int ms;
-    int ss;
     int mps;
     int sum;
 
 
-    MaxSegBox(int*** _input, long _l, long _m) : A(_input), m(_m), l(_l),  mbs(0), ms(0), ss(0), mps(0), sum(0) {}
+    MaxSegBox(int*** _input, long _l, long _m) : A(_input), m(_m), l(_l),  mbs(0), ms(0), mps(0), sum(0) {}
 
-    MaxSegBox(MaxSegBox& s, split) { A = s.A; m = s.m; l = s.l; mbs = 0; ms = 0; ss = 0; mps = 0; sum = 0;}
+    MaxSegBox(MaxSegBox& s, split) { A = s.A; m = s.m; l = s.l; mbs = 0; ms = 0; mps = 0; sum = 0;}
 
     void operator()( const blocked_range<long>& r ) {
       for(long i = r.begin(); i < r.end(); i++)
         {
-          ss = 0;
+          int ss = 0;
           for(long j = 0; j < m; j++)
             {
                 for(long k = 0; k < l; k++) {
@@ -42,7 +42,6 @@ struct MaxSegBox {
     }
 
     void join(MaxSegBox& r) {
-       ss = r.ss;
        int sumAux = sum;
        sum = r.sum + sum;
        mps = max(mps, sumAux + r.mps);
@@ -54,116 +53,95 @@ struct MaxSegBox {
 
 };
 
-double do_seq(int ***A, long l, long m, long n) {
-    StopWatch t;
-    t.start();
+struct msbox_res { int mbb; int msb; };
 
-    // Insert sequential code here. It must be the same as the code in the operator()
-  int max_bot_Box = 0;
-  int max_Box = 0;
-  int Box_sum = 0;
+
+msbox_res seq_implem(int ***A, long l, long m, long n) {
+
+  int mbb = 0;
+  int msb = 0;
+
   for(long i = 0; i < n; i++)
 	{
-	  Box_sum = 0;
+	  int bsum = 0;
 	  for(long j = 0; j < m; j++)
 		{
 		    for(long k = 0; k < l; k++)
 		    {
-                Box_sum += A[i][j][k];
+                bsum += A[i][j][k];
 		    }
 		}
-	  max_bot_Box = max(max_bot_Box + Box_sum, 0);
-	  max_Box = max(max_bot_Box, max_Box);
+	  mbb = max(mbb + bsum, 0);
+	  msb = max(mbb, msb);
 	}
 
-    return t.stop();
+    return {mbb, msb};
 }
 
-double do_par(int ***input, long l, long m, long n, int num_cores) {
+double do_seq(int ***A, long l, long m, long n) {
+    StopWatch t;
+    seq_implem(A, l, m, n);
+    double elapsed = 0.0;
+    for(int i = 0; i < NUM_REPEAT; i++) {
+        t.start();
+        seq_implem(A, l, m, n);
+        elapsed += t.stop();
+    }
+    return elapsed / NUM_REPEAT;
+}
+
+
+double do_par(int ***A, long l, long m, long n, int num_cores) {
     StopWatch t;
     double elapsed = 0.0;
-    // Any specific initalization of state variables must be done here.
-
     // TBB Initialization with num_cores cores
     static task_scheduler_init init(task_scheduler_init::deferred);
     init.initialize(num_cores, UT_THREAD_DEFAULT_STACK_SIZE);
 
-    MaxSegBox mtss(input,  l, m);
+    MaxSegBox maxSegBox(A, m, l);
+    parallel_reduce(blocked_range<long>(0, n-1), maxSegBox);
 
     for(int i = 0; i < NUM_REPEAT ; i++){
         t.start();
-        parallel_reduce(blocked_range<long>(0, n-1), mtss);
+        parallel_reduce(blocked_range<long>(0, n-1), maxSegBox);
         elapsed += t.stop();
     }
+
+    init.terminate();
 
     return elapsed / NUM_REPEAT;
 }
 
+
 int main(int argc, char** argv) {
     // Data size:
-    bool custom_sizes = false;
-
-    if(argc <= 1) {
-        cout << "Usage:" << argv[0] << " [NUMBER OF CORES] [N] [L] [M]" << endl;
+    if(argc < 4) {
+        cout << "Usage:./ExpMaxTopBox [NUM_ROWS] [NUM_COLS] [DEPTH]" << endl;
         return  -1;
     }
 
-    long n,m,l;
-    if (argc == 5) {
-        n = atoi(argv[2]);
-        m = atoi(argv[3]);
-        l = atoi(argv[4]);
-        custom_sizes = true;
-    } else {
-        // Data size:
-        n = 2 << EXPERIMENTS_3D_N;
-        m = 2 << EXPERIMENTS_3D_M;
-        l = 2 << EXPERIMENTS_3D_L;
-    }
+    int n = atoi(argv[1]);
+    int m = atoi(argv[2]);
+    int l = atoi(argv[3]);
+    // Data allocation and initialization
+    int ***A;
+    A = create_rand_int_3D_matrix(l,m,n);
 
-    int ***input;
-    input = (int***) malloc(sizeof(int**) * n);
-    for(long i = 0; i < n; i++) {
-        input[i] = (int**) malloc(sizeof(int*) * m);
-        for(long j =0; j < m; j++){
-            input[i][j] = (int*) malloc(sizeof(int) * l);
+
+    for(int num_threads = 0; num_threads <= EXP_MAX_CORES; num_threads++) {
+        double exp_time;
+
+        if (num_threads > 0) {
+            // Do the parallel experiment.
+            exp_time = do_par(A, l, m, n, num_threads);
+        } else {
+            // Do the sequential experiment.
+            exp_time = do_seq(A, l, m, n);
         }
-    }
 
-#pragma omp parallel for
-    for(long i = 0; i < n; i++) {
-#pragma omp parallel for
-        for(long j =0; j < m; j++){
-            for(long k = 0; k < l; k++)
-            {
-                input[i][j][k] =  (rand() % 255) - 122;
-            }
-        }
-    }
-
-
-    if(argc <= 1) {
-        cout << "Usage: Gradient1 [NUMBER OF CORES]" << endl;
-        return  -1;
-    }
-
-    int num_cores = atoi(argv[1]);
-    double exp_time = 0.0;
-
-    if (num_cores > 0) {
-        // Do the parallel experiment.
-        exp_time = do_par(input, l, m, n, num_cores);
-    } else {
-        // Do the sequential experiment.
-        exp_time = do_seq(input, l, m, n);
-    }
-
-    if(custom_sizes) {
-        cout << argv[0] << "," << n << "," << m << "," << l << "," << num_cores
-             << "," << exp_time << endl;
-    } else {
-        cout << argv[0] << "," << num_cores << "," << exp_time << endl;
+        cout << "max-top-box" << "," << num_threads << "," << exp_time << endl;
     }
 
     return 0;
 }
+

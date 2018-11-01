@@ -2,33 +2,11 @@
 #include <iostream>
 #include "StopWatch.h"
 #include "param.h"
+#include "datagen.h"
 
 using namespace std;
 using namespace tbb;
 
-
-//int *c;
-//int mtr = 0;
-//int mtrl = 0;
-//int sum;
-///*
-//   int * aux;
-// */
-//
-//for (int i = 0; i < n; i++) {
-//sum = 0;
-//mtr = 0;
-//for(int j = 0; j < m; j++){
-//sum += a[i][j];
-//c[j] += sum;
-//mtr = max(c[j], mtr);
-///* Auxiliary:
-//   aux[j] = max(aux[j], c[j]);
-//*/
-//}
-//mtrl = max(mtr, mtrl);
-//}
-//return mtrl;
 
 struct MTRR {
     int **A;
@@ -40,19 +18,12 @@ struct MTRR {
     int mtrr;
 
 
-    MTRR(int** _input, long rl) : A(_input), m(rl), mtr(0), mtrr(0){
-        c = new int[rl];
-        aux = new int[rl];
-    }
+    MTRR(int** _input, int* c, int *aux, long rl) :
+            A(_input), c(c), aux(aux), m(rl), mtr(0), mtrr(0) {}
 
-    MTRR(MTRR& s, split) {
-        mtr = 0;
-        mtrr = 0;
-        c = new int[s.m];
-        aux = new int[s.m];
-        A = s.A;
-        m = s.m;
-
+    MTRR(MTRR& s, split) : m(s.m), A(s.A), mtr(0), mtrr(0) {
+        c = new int[s.m] {0};
+        aux = new int[s.m] {0};
     }
 
     void operator()( const blocked_range<long>& r ) {
@@ -88,69 +59,96 @@ struct MTRR {
 
 };
 
-double do_seq(int **A, long m, long n) {
-    StopWatch t;
-    t.start();
+int seq_implem(int **A, long m, long n) {
     int sum= 0;
+    int c[m] = {0};
+    int mtrr = 0;
 
     for(long i = 0; i < n - 1; ++i) {
         for(long j = 0; j < m-1; j++) {
             sum += A[i][j];
         }
     }
+    for (long i = 0; i < n; i++) {
+        long j2 = 0;
+        int acc_aux = 0;
+        int mtr = 0;
+        for (long j = 0; j < m; j++) {
+            c[j] += A[i][j];
+            mtr = max(mtr + c[j], 0);
+            j2 = m - j - 1;
+            acc_aux += c[j2] + A[i][j2];
+        }
+        mtrr = max(mtr, mtrr);
+    }
 
-    return t.stop();
+    return mtrr;
 }
 
-double do_par(int **input, long m, long n, int num_cores) {
+
+double do_seq(int **A, long m, long n) {
+    StopWatch t;
+    seq_implem(A,m,n);
+    double elapsed = 0.0;
+    for(int i = 0; i < NUM_REPEAT; i++) {
+        t.start();
+        seq_implem(A, m, n);
+        elapsed += t.stop();
+    }
+    return elapsed / NUM_REPEAT;
+}
+
+
+double do_par(int** const A, long m, long n, int num_cores) {
     StopWatch t;
     double elapsed = 0.0;
+    int c[m] = {0};
+    int aux[m] = {0};
     // TBB Initialization with num_cores cores
     static task_scheduler_init init(task_scheduler_init::deferred);
     init.initialize(num_cores, UT_THREAD_DEFAULT_STACK_SIZE);
 
-    MTRR sum(input, m);
+    MTRR mtrr(A, c, aux, m);
+    parallel_reduce(blocked_range<long>(0, n-1), mtrr);
 
     for(int i = 0; i < NUM_REPEAT ; i++){
         t.start();
-        parallel_reduce(blocked_range<long>(0, n), sum);
+        parallel_reduce(blocked_range<long>(0, n-1), mtrr);
         elapsed += t.stop();
     }
+
+    init.terminate();
 
     return elapsed / NUM_REPEAT;
 }
 
+
 int main(int argc, char** argv) {
     // Data size:
-    long n = 2 << EXPERIMENTS_2D_N;
-    long m = 2 << EXPERIMENTS_2D_M;
-    // Data allocation and initialization
-    int **input;
-    input = (int**) malloc(sizeof(int*) * n);
-    for(long i = 0; i < n; i++) {
-        input[i] = (int*) malloc(sizeof(int) * m);
-        for(long j =0; j < m; j++){
-            input[i][j] = rand() % 40;
-        }
-    }
-
-    if(argc <= 1) {
-        cout << "Usage: Gradient1 [NUMBER OF CORES]" << endl;
+    if(argc < 3) {
+        cout << "Usage:./ExpMTRR [NUM_ROWS] [NUM_COLS]" << endl;
         return  -1;
     }
 
-    int num_cores = atoi(argv[1]);
-    double exp_time = 0.0;
+    int n = atoi(argv[1]);
+    int m = atoi(argv[2]);
+    // Data allocation and initialization
+    int **input;
+    input = create_rand_int_2D_matrix(m,n);
 
-    if (num_cores > 0) {
-        // Do the parallel experiment.
-        exp_time = do_par(input, m, n, num_cores);
-    } else {
-        // Do the sequential experiment.
-        exp_time = do_seq(input, m, n);
+    for(int num_threads = 0; num_threads <= EXP_MAX_CORES; num_threads++) {
+        double exp_time;
+
+        if (num_threads > 0) {
+            // Do the parallel experiment.
+            exp_time = do_par(input, m, n, num_threads);
+        } else {
+            // Do the sequential experiment.
+            exp_time = do_seq(input, m, n);
+        }
+
+        cout << "mtrr" << "," << num_threads << "," << exp_time << endl;
     }
-
-    cout <<argv[0] << "," << num_cores << "," << exp_time << endl;
 
     return 0;
 }

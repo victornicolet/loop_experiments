@@ -109,32 +109,97 @@ double do_par(int *input, long n, int num_cores) {
 }
 
 
-int main(int argc, char** argv) {
-    // Data size:
-    if(argc < 2) {
-        cout << "Usage:./ExpMode [NUM_ELTS]" << endl;
-        return  -1;
+//void join(Mode& r) {
+//    count = r.count;
+//    elt = r.elt;
+//    max_cnt = max(r.max_cnt, max_cnt);
+//    mode =  (r.max_cnt > max_cnt) ? mode : r.mode;
+//}
+
+struct mode_res {
+    int max_cnt;
+    int mode;
+};
+
+mode_res mode_join(mode_res a, mode_res b) {
+    return {max(a.max_cnt, b.max_cnt), (a.max_cnt > b.max_cnt) ? a.mode : b.mode};
+}
+
+mode_res parallel_omp(const int* A, long n, int num_threads) {
+#pragma omp declare reduction \
+      (join:mode_res:omp_out=mode_join(omp_out, omp_in)) \
+      initializer(omp_priv={ INT_MIN, 0 })
+
+    mode_res res = {INT_MIN, 0};
+
+    omp_set_dynamic(0);
+    omp_set_num_threads(num_threads);
+#pragma omp parallel for reduction(join:res)
+    for(long i = 0; i < n; i++) {
+        int elt = A[i];
+        int count = 1;
+
+        for(long j = 0; j < n-1; j++) {
+            if(A[j] == elt) {
+                count++;
+            }
+        }
+
+        if (count > res.max_cnt) {
+            res.mode = elt;
+        }
+        res.max_cnt = max(res.max_cnt, count);
     }
 
-    int n = atoi(argv[1]);
+    return res;
+}
+
+double do_par_omp(int* A, long n, int num_threads) {
+    StopWatch t;
+    double elapsed = 0.0;
+    parallel_omp(A, n, num_threads);
+
+    for(int i = 0; i < NUM_REPEAT ; i++){
+        t.start();
+        parallel_omp(A, n, num_threads);
+        elapsed += t.stop();
+    }
+
+    return elapsed / NUM_REPEAT;
+}
+
+int main(int argc, char** argv) {
+    bool custom_sizes;
+    long n,m;
+    if (argc == 3) {
+        n = max(atoi(argv[1]), atoi(argv[2]));
+        custom_sizes = true;
+    } else {
+        // Data size:
+        n = 2 << EXPERIMENTS_2D_N;
+    }
+
     // Data allocation and initialization
-    int *input;
+    int* input;
     input = create_rand_int_1D_array(n);
 
+    double exp_time = 0.0;
+    double exp_time_omp = 0.0;
 
     for(int num_threads = 0; num_threads <= EXP_MAX_CORES; num_threads++) {
-        double exp_time = 0.0;
-
         if (num_threads > 0) {
             // Do the parallel experiment.
             exp_time = do_par(input, n, num_threads);
+            exp_time_omp = do_par_omp(input, n, num_threads);
         } else {
             // Do the sequential experiment.
             exp_time = do_seq(input, n);
+            exp_time_omp = exp_time;
         }
 
-        cout << "mode" << "," << num_threads << "," << exp_time << endl;
+//        CSV LINE : Prog. name, N, M, L, Num threads used, Exp time, OpenMP exp time
+        cout << argv[0] << "," << n << "," << n << "," << num_threads
+             << ", " << exp_time << "," << exp_time_omp << endl;
     }
-
     return 0;
 }

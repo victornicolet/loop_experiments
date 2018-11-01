@@ -94,6 +94,46 @@ double do_seq(const bool* A, long n) {
 }
 
 
+double parallel_omp(const bool *A, long n, int num_threads) {
+    StopWatch t;
+    t.start();
+    int max_length = INT_MIN;
+    omp_set_dynamic(0);
+    omp_set_num_threads(num_threads);
+#pragma omp parallel for reduction(max:max_length)
+    for(long i = 0; i < n; ++i) {
+        int offset = 0;
+        bool balance = true;
+
+        for(long j = i; j < n; j++) {
+
+            offset += A[j] ? 1 : -1;
+
+            if (offset == 0 && balance) {
+                max_length = max(max_length, static_cast<int>(j - i + 1));
+            }
+
+            if (offset <= 0 ) {
+                balance = false;
+            }
+        }
+    }
+
+    return t.stop();
+}
+
+
+double do_par_omp(bool *input, long n, int num_threads) {
+
+    parallel_omp(input, n, num_threads);
+
+    double elapsed = 0.0;
+    for(int i = 0; i < NUM_REPEAT ; i++){
+        elapsed += parallel_omp(input, n, num_threads);
+    }
+
+    return elapsed / NUM_REPEAT;
+}
 
 
 double do_par(bool *input, long n, int num_cores) {
@@ -119,28 +159,39 @@ double do_par(bool *input, long n, int num_cores) {
 
 int main(int argc, char** argv) {
     if(argc <= 1) {
-        cout << "Usage: ./ExpMaxBalSub [N]" << endl;
+        cout << "Usage: ./OMPExpMaxTopBox [N] [L] [M]" << endl;
         return  -1;
     }
 
     long n;
-    n = atoi(argv[1]);
+    if (argc == 3) {
+        n = max(atoi(argv[1]), atoi(argv[2]));
+    } else {
+        // Data size:
+        n = 2 << EXPERIMENTS_3D_N;
+    }
     // Data allocation and initialization
     bool* input;
     input = create_rand_bool_1D_array(n);
 
+
     double exp_time;
+    double exp_time_omp;
 
     for(int num_threads = 0; num_threads <= EXP_MAX_CORES; num_threads++) {
         if (num_threads > 0) {
             // Do the parallel experiment.
             exp_time = do_par(input, n, num_threads);
+            exp_time_omp = do_par_omp(input, n, num_threads);
         } else {
             // Do the sequential experiment.
             exp_time = do_seq(input, n);
+            exp_time_omp = exp_time;
         }
 
-        cout << "max-balanced-substr" << "," << num_threads << ", " << exp_time << endl;
+//        CSV LINE : Prog. name, N, M, L, Num threads used, Exp time, OpenMP exp time
+        cout << argv[0] << "," << n << "," << n << "," << num_threads
+             << ", " << exp_time << "," << exp_time_omp << endl;
     }
     return 0;
 }

@@ -109,7 +109,7 @@ double do_par(int **input, long m, long n, int num_cores) {
 int main(int argc, char** argv) {
     // Data size:
     if(argc < 3) {
-        cout << "Usage:./ExpMinMax [NUM_ROWS] [NUM_COLS]" << endl;
+        cout << "Usage:./ExpMaxBottomStrip [NUM_ROWS] [NUM_COLS]" << endl;
         return  -1;
     }
 

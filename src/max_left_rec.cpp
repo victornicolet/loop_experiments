@@ -7,11 +7,6 @@
 using namespace std;
 using namespace tbb;
 
-struct mlr_res {
-    int* rects;
-    int rs;
-    int mlr;
-};
 
 struct MaxLeftRec {
     int **A;
@@ -24,8 +19,8 @@ struct MaxLeftRec {
       rects = new int[rl];
     }
 
-    MaxLeftRec(MaxLeftRec& s, split) {
-      mlr = 0; rs = 0; A = s.A; m = s.m; rects = new int[s.m];
+    MaxLeftRec(MaxLeftRec& s, split) : mlr(0), rs(0), A(s.A), m(s.m) {
+      rects = new int[s.m];
     }
 
     void operator()( const blocked_range<long>& r ) {
@@ -41,8 +36,6 @@ struct MaxLeftRec {
                 lmlr = max(lmlr, rects[j]);
             }
         }
-        lmlr = mlr;
-        lrs = rs;
     }
 
     void join(MaxLeftRec& rhs) {
@@ -56,13 +49,8 @@ struct MaxLeftRec {
 
 };
 
-mlr_res seq_implem(int **A, long m, long n) {
-
-    int* rects = (int*) calloc(m, sizeof(int));
-
-    StopWatch t;
-    t.start();
-    bool b;
+int seq_implem(int **A, long m, long n) {
+    int rects[m] = {0};
     int rs = 0;
     int mlr = 0;
 
@@ -76,7 +64,7 @@ mlr_res seq_implem(int **A, long m, long n) {
         }
     }
 
-    return {rects, rs, mlr};
+    return mlr;
 }
 
 double do_seq(int **A, long m, long n) {

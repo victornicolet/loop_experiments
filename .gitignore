@@ -12,7 +12,6 @@ Exp2DSum
 ExpGlobalBal
 ExpGradient1
 ExpGradient2
-ExpIncreasingRange
 ExpMTLR
 ExpMTRR
 ExpMaxBalSub
@@ -29,8 +28,13 @@ ExpMinMax
 ExpMinMaxCol
 ExpMode
 ExpOverlapping
+ExpOverlappingRanges
+ExpIncreasingRanges
+ExpIncreasingRange
+ExpPyramidRanges
 ExpPyramidRange
 ExpSaddlePoint
+ExpWellBalanced
 Makefile
 NestedLoopsExperiments.cbp
 OMPExpMaxTopBox
