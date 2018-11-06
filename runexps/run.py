@@ -6,7 +6,7 @@ experiments = [
     ('ExpGradient1', int(5e5), int(1e4), 0),
     ('ExpGradient2', int(5e5), int(1e4), 0),
     ('ExpMinMax', int(3e5), int(1e4), 0),
-    ('ExpMaxDist', int(4e5), int(4e5), 0),
+    ('ExpMaxDist', int(5e4), int(5e4), 0),
     ('ExpMinMaxCol', int(3e5), int(1e4), 0),
     ('ExpMaxLeftRect', int(3e5), int(1e4), 0),
     ('ExpMaxTopStrip', int(3e5), int(2e4), 0),

@@ -28,12 +28,62 @@ examples = all_groups.groupby(['name'])
 
 examples = [(s, f(x)) for s, x in examples]
 
+#
+# 2d-sorted
+# 2d-sum
+# gradient1
+# gradient2
+# increasing-ranges
+# max-balanced-substr
+# max-bot-strip
+# max-bottom-box
+# max-left-rect
+# max-seg-strip
+# max-top-box
+# minmax
+# minmax-col
+# mode
+# mtlr
+# mtrr
+# overlapping-ranges
+# pyramid-ranges
+# saddle-point
+# well-balanced
+
+colors = {
+ '2d-sorted' : ('xkcd:sky blue', '-'),
+ '2d-sum'  : ('xkcd:purple', '-'),
+ 'gradient1' : ('xkcd:green', '-'),
+ 'gradient2' : ('xkcd:pink', '-'),
+ 'increasing-ranges' : ('xkcd:brown', '-'),
+ 'max-balanced-substr' : ('xkcd:red', '-'),
+ 'max-bot-strip' : ('xkcd:teal', '-'),
+ 'max-bottom-box' : ('xkcd:mustard', ':'),
+ 'max-left-rect' : ('xkcd:forest green', '-'),
+ 'max-seg-strip' : ('xkcd:aqua', '-'),
+ 'max-top-box' : ('xkcd:orange', ':'),
+ 'minmax' : ('xkcd:black', '-'),
+ 'minmax-col' : ('xkcd:salmon', '-'),
+ 'mode' : ('xkcd:lime', '-'),
+ 'mtlr' : ('xkcd:indigo', ':'),
+ 'mtrr' : ('xkcd:bright green', '-'),
+ 'overlapping-ranges' : ('xkcd:navy blue', '-'),
+ 'pyramid-ranges' : ('xkcd:grey', '-'),
+ 'saddle-point' : ('xkcd:hot pink', '-'),
+ 'well-balanced' : ('xkcd:violet', '--'),
+}
+
+
 
 fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
 
 for s, example in examples:
-    example.plot(x='threads', y=['speedup_mean'], label=[str(s)], ax=ax)
+    cex, lex = colors[str(s)]
+    example.plot(x='threads', y=['speedup_mean'],
+                 label=[str(s)],
+                 linestyle=lex,
+                 color=cex, ax=ax)
 
 ax.set_ylim(0, 64)
 plt.show()

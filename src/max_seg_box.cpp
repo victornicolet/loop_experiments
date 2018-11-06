@@ -139,7 +139,7 @@ int main(int argc, char** argv) {
             exp_time = do_seq(A, l, m, n);
         }
 
-        cout << "max-top-box" << "," << num_threads << "," << exp_time << endl;
+        cout << "max-seg-box" << "," << num_threads << "," << exp_time << endl;
     }
 
     return 0;
