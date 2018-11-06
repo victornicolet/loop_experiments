@@ -118,7 +118,7 @@ int main(int argc, char** argv) {
             exp_time = do_seq(input, m, n);
         }
 
-        cout << "max-left-rect" << "," << num_threads << "," << exp_time << endl;
+        cout << "max-top-strip" << "," << num_threads << "," << exp_time << endl;
     }
 
     return 0;
