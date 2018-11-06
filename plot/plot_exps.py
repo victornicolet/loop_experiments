@@ -3,8 +3,10 @@ import matplotlib.pyplot as plt
 
 DATAFILE = '../data/explog_compsbk2.csv'
 
+best_num_threads = [0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,24,28,32] #,40,48,52,64]
 
 data = pd.read_csv(DATAFILE, sep=",")
+data = data[data['threads'].isin(best_num_threads)]
 data_summary = {'time': ['mean', 'std']}
 
 all_groups = data.groupby(['name', 'threads']).agg(data_summary)
@@ -55,18 +57,19 @@ colors = {
  '2d-sum'  : ('xkcd:purple', '-'),
  'gradient1' : ('xkcd:green', '-'),
  'gradient2' : ('xkcd:pink', '-'),
+ 'max-dist' : ('mediumblue', '-'),
  'increasing-ranges' : ('xkcd:brown', '-'),
  'max-balanced-substr' : ('xkcd:red', '-'),
  'max-bot-strip' : ('xkcd:teal', '-'),
- 'max-bottom-box' : ('xkcd:mustard', ':'),
- 'max-left-rect' : ('xkcd:forest green', '-'),
  'max-seg-strip' : ('xkcd:aqua', '-'),
+ 'max-bottom-box' : ('xkcd:mustard', ':'),
  'max-top-box' : ('xkcd:orange', ':'),
+ 'max-left-rect' : ('xkcd:forest green', '-.'),
  'minmax' : ('xkcd:black', '-'),
  'minmax-col' : ('xkcd:salmon', '-'),
  'mode' : ('xkcd:lime', '-'),
- 'mtlr' : ('xkcd:indigo', ':'),
- 'mtrr' : ('xkcd:bright green', '-'),
+ 'mtlr' : ('xkcd:indigo', '-.'),
+ 'mtrr' : ('xkcd:bright green', '-.'),
  'overlapping-ranges' : ('xkcd:navy blue', '-'),
  'pyramid-ranges' : ('xkcd:grey', '-'),
  'saddle-point' : ('xkcd:hot pink', '-'),
@@ -85,5 +88,5 @@ for s, example in examples:
                  linestyle=lex,
                  color=cex, ax=ax)
 
-ax.set_ylim(0, 64)
+ax.set_ylim(0, 40)
 plt.show()
