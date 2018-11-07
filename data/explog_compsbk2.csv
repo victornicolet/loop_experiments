@@ -13072,5 +13072,655 @@ max-top-box,1,68.0403
 max-top-box,2,38.4473
 max-top-box,3,29.0388
 max-top-box,4,20.2347
+max-top-strip,0,35.7984
+max-top-strip,1,45.0371
+max-top-strip,2,25.4175
+max-top-strip,3,18.0189
+max-top-strip,4,12.8513
+max-top-strip,5,10.0489
+max-top-strip,6,7.48161
+max-top-strip,7,7.25131
+max-top-strip,8,6.3441
+max-top-strip,9,5.33053
+max-top-strip,10,4.732
+max-top-strip,11,4.41673
+max-top-strip,12,4.18694
+max-top-strip,13,3.93307
+max-top-strip,14,3.51088
+max-top-strip,15,3.23471
+max-top-strip,16,2.94401
+max-top-strip,17,3.02373
+max-top-strip,18,2.84168
+max-top-strip,19,2.63367
+max-top-strip,20,2.50898
+max-top-strip,21,2.61541
+max-top-strip,22,2.24678
+max-top-strip,23,2.23544
+max-top-strip,24,2.26939
+max-top-strip,25,2.14583
+max-top-strip,26,2.06104
+max-top-strip,27,1.88775
+max-top-strip,28,1.7996
+max-top-strip,29,1.64443
+max-top-strip,30,1.60836
+max-top-strip,31,1.60864
+max-top-strip,32,1.53439
+max-top-strip,33,1.36297
+max-top-strip,34,1.54409
+max-top-strip,35,1.44995
+max-top-strip,36,1.42377
+max-top-strip,37,1.3453
+max-top-strip,38,1.48357
+max-top-strip,39,1.3842
+max-top-strip,40,1.33922
+max-top-strip,41,1.25826
+max-top-strip,42,1.64862
+max-top-strip,43,1.19083
+max-top-strip,44,1.36549
+max-top-strip,45,1.32895
+max-top-strip,46,1.20668
+max-top-strip,47,1.13057
+max-top-strip,48,1.2231
+max-top-strip,49,1.14163
+max-top-strip,50,1.15169
+max-top-strip,51,1.27185
+max-top-strip,52,1.04112
+max-top-strip,53,1.11085
+max-top-strip,54,1.03416
+max-top-strip,55,1.05965
+max-top-strip,56,1.03314
+max-top-strip,57,0.993378
+max-top-strip,58,1.13352
+max-top-strip,59,0.871556
+max-top-strip,60,1.00254
+max-top-strip,61,1.19561
+max-top-strip,62,1.04237
+max-top-strip,63,0.9012
+max-top-strip,64,0.813246
+max-left-strip,0,47.0101
+max-left-strip,1,54.9194
+max-left-strip,2,31.1258
+max-left-strip,3,24.9973
+max-left-strip,4,18.5727
+max-left-strip,5,13.3825
+max-left-strip,6,11.3357
+max-left-strip,7,9.00043
+max-left-strip,8,8.13387
+max-left-strip,9,7.67417
+max-left-strip,10,7.08169
+max-left-strip,11,6.2759
+max-left-strip,12,5.86329
+max-left-strip,13,5.37972
+max-left-strip,14,5.26816
+max-left-strip,15,4.90105
+max-left-strip,16,4.40539
+max-left-strip,17,4.27493
+max-left-strip,18,4.09064
+max-left-strip,19,3.95696
+max-left-strip,20,3.54045
+max-left-strip,21,3.69673
+max-left-strip,22,3.42772
+max-left-strip,23,3.37916
+max-left-strip,24,3.54659
+max-left-strip,25,3.03344
+max-left-strip,26,3.23142
+max-left-strip,27,3.09729
+max-left-strip,28,3.15183
+max-left-strip,29,3.12882
+max-left-strip,30,2.82414
+max-left-strip,31,2.96928
+max-left-strip,32,3.1624
+max-left-strip,33,3.38715
+max-left-strip,34,2.72684
+max-left-strip,35,2.89683
+max-left-strip,36,3.46443
+max-left-strip,37,2.86845
+max-left-strip,38,3.22698
+max-left-strip,39,3.77792
+max-left-strip,40,3.22521
+max-left-strip,41,3.13112
+max-left-strip,42,3.4734
+max-left-strip,43,2.89799
+max-left-strip,44,3.14856
+max-left-strip,45,3.85265
+max-left-strip,46,1.92281
+max-left-strip,47,4.72261
+max-left-strip,48,4.55595
+max-left-strip,49,3.38824
+max-left-strip,50,3.41678
+max-left-strip,51,5.43417
+max-left-strip,52,4.69776
+max-left-strip,53,5.27212
+max-left-strip,54,4.48817
+max-left-strip,55,4.43604
+max-left-strip,56,5.8189
+max-left-strip,57,2.46876
+max-left-strip,58,5.33941
+max-left-strip,59,5.88238
+max-left-strip,60,6.24973
+max-left-strip,61,4.29766
+max-left-strip,62,6.43609
+max-left-strip,63,5.43078
+max-left-strip,64,5.69978
+max-seg-box,0,27.4926
+max-seg-box,1,26.8754
+max-seg-box,2,15.3218
+max-seg-box,3,10.5625
+max-seg-box,4,7.40693
+max-seg-box,5,6.03832
+max-seg-box,6,4.9093
+max-seg-box,7,4.15817
+max-seg-box,8,3.74319
+max-seg-box,9,3.27361
+max-seg-box,10,3.03622
+max-seg-box,11,2.66567
+max-seg-box,12,2.40315
+max-seg-box,13,2.19708
+max-seg-box,14,2.13517
+max-seg-box,15,1.95635
+max-seg-box,16,1.82432
+max-seg-box,17,1.73578
+max-seg-box,18,1.64023
+max-seg-box,19,1.50748
+max-seg-box,20,1.44542
+max-seg-box,21,1.35454
+max-seg-box,22,1.33954
+max-seg-box,23,1.24208
+max-seg-box,24,1.22957
+max-seg-box,25,1.09948
+max-seg-box,26,1.16487
+max-seg-box,27,1.10306
+max-seg-box,28,1.08734
+max-seg-box,29,1.00351
+max-seg-box,30,0.96227
+max-seg-box,31,0.946311
+max-seg-box,32,0.907779
+max-seg-box,33,0.905689
+max-seg-box,34,0.867331
+max-seg-box,35,0.840805
+max-seg-box,36,0.831721
+max-seg-box,37,0.79567
+max-seg-box,38,0.781002
+max-seg-box,39,0.762362
+max-seg-box,40,0.764476
+max-seg-box,41,0.743216
+max-seg-box,42,0.722932
+max-seg-box,43,0.71696
+max-seg-box,44,0.688712
+max-seg-box,45,0.670646
+max-seg-box,46,0.704993
+max-seg-box,47,0.658357
+max-seg-box,48,0.642929
+max-seg-box,49,0.62328
+max-seg-box,50,0.694148
+max-seg-box,51,0.630784
+max-seg-box,52,0.605415
+max-seg-box,53,0.59621
+max-seg-box,54,0.6073
+max-seg-box,55,0.604424
+max-seg-box,56,0.569176
+max-seg-box,57,0.563132
+max-seg-box,58,0.558491
+max-seg-box,59,0.547574
+max-seg-box,60,0.544845
+max-seg-box,61,0.534279
+max-seg-box,62,0.525765
+max-seg-box,63,0.524665
+max-seg-box,64,0.514903
+max-top-strip,0,35.7984
+max-top-strip,1,45.0371
+max-top-strip,2,25.4175
+max-top-strip,3,18.0189
+max-top-strip,4,12.8513
+max-top-strip,5,10.0489
+max-top-strip,6,7.48161
+max-top-strip,7,7.25131
+max-top-strip,8,6.3441
+max-top-strip,9,5.33053
+max-top-strip,10,4.732
+max-top-strip,11,4.41673
+max-top-strip,12,4.18694
+max-top-strip,13,3.93307
+max-top-strip,14,3.51088
+max-top-strip,15,3.23471
+max-top-strip,16,2.94401
+max-top-strip,17,3.02373
+max-top-strip,18,2.84168
+max-top-strip,19,2.63367
+max-top-strip,20,2.50898
+max-top-strip,21,2.61541
+max-top-strip,22,2.24678
+max-top-strip,23,2.23544
+max-top-strip,24,2.26939
+max-top-strip,25,2.14583
+max-top-strip,26,2.06104
+max-top-strip,27,1.88775
+max-top-strip,28,1.7996
+max-top-strip,29,1.64443
+max-top-strip,30,1.60836
+max-top-strip,31,1.60864
+max-top-strip,32,1.53439
+max-top-strip,33,1.36297
+max-top-strip,34,1.54409
+max-top-strip,35,1.44995
+max-top-strip,36,1.42377
+max-top-strip,37,1.3453
+max-top-strip,38,1.48357
+max-top-strip,39,1.3842
+max-top-strip,40,1.33922
+max-top-strip,41,1.25826
+max-top-strip,42,1.64862
+max-top-strip,43,1.19083
+max-top-strip,44,1.36549
+max-top-strip,45,1.32895
+max-top-strip,46,1.20668
+max-top-strip,47,1.13057
+max-top-strip,48,1.2231
+max-top-strip,49,1.14163
+max-top-strip,50,1.15169
+max-top-strip,51,1.27185
+max-top-strip,52,1.04112
+max-top-strip,53,1.11085
+max-top-strip,54,1.03416
+max-top-strip,55,1.05965
+max-top-strip,56,1.03314
+max-top-strip,57,0.993378
+max-top-strip,58,1.13352
+max-top-strip,59,0.871556
+max-top-strip,60,1.00254
+max-top-strip,61,1.19561
+max-top-strip,62,1.04237
+max-top-strip,63,0.9012
+max-top-strip,64,0.813246
+max-left-strip,0,47.0101
+max-left-strip,1,54.9194
+max-left-strip,2,31.1258
+max-left-strip,3,24.9973
+max-left-strip,4,18.5727
+max-left-strip,5,13.3825
+max-left-strip,6,11.3357
+max-left-strip,7,9.00043
+max-left-strip,8,8.13387
+max-left-strip,9,7.67417
+max-left-strip,10,7.08169
+max-left-strip,11,6.2759
+max-left-strip,12,5.86329
+max-left-strip,13,5.37972
+max-left-strip,14,5.26816
+max-left-strip,15,4.90105
+max-left-strip,16,4.40539
+max-left-strip,17,4.27493
+max-left-strip,18,4.09064
+max-left-strip,19,3.95696
+max-left-strip,20,3.54045
+max-left-strip,21,3.69673
+max-left-strip,22,3.42772
+max-left-strip,23,3.37916
+max-left-strip,24,3.54659
+max-left-strip,25,3.03344
+max-left-strip,26,3.23142
+max-left-strip,27,3.09729
+max-left-strip,28,3.15183
+max-left-strip,29,3.12882
+max-left-strip,30,2.82414
+max-left-strip,31,2.96928
+max-left-strip,32,3.1624
+max-left-strip,33,3.38715
+max-left-strip,34,2.72684
+max-left-strip,35,2.89683
+max-left-strip,36,3.46443
+max-left-strip,37,2.86845
+max-left-strip,38,3.22698
+max-left-strip,39,3.77792
+max-left-strip,40,3.22521
+max-left-strip,41,3.13112
+max-left-strip,42,3.4734
+max-left-strip,43,2.89799
+max-left-strip,44,3.14856
+max-left-strip,45,3.85265
+max-left-strip,46,1.92281
+max-left-strip,47,4.72261
+max-left-strip,48,4.55595
+max-left-strip,49,3.38824
+max-left-strip,50,3.41678
+max-left-strip,51,5.43417
+max-left-strip,52,4.69776
+max-left-strip,53,5.27212
+max-left-strip,54,4.48817
+max-left-strip,55,4.43604
+max-left-strip,56,5.8189
+max-left-strip,57,2.46876
+max-left-strip,58,5.33941
+max-left-strip,59,5.88238
+max-left-strip,60,6.24973
+max-left-strip,61,4.29766
+max-left-strip,62,6.43609
+max-left-strip,63,5.43078
+max-left-strip,64,5.69978
+max-seg-box,0,27.4926
+max-seg-box,1,26.8754
+max-seg-box,2,15.3218
+max-seg-box,3,10.5625
+max-seg-box,4,7.40693
+max-seg-box,5,6.03832
+max-seg-box,6,4.9093
+max-seg-box,7,4.15817
+max-seg-box,8,3.74319
+max-seg-box,9,3.27361
+max-seg-box,10,3.03622
+max-seg-box,11,2.66567
+max-seg-box,12,2.40315
+max-seg-box,13,2.19708
+max-seg-box,14,2.13517
+max-seg-box,15,1.95635
+max-seg-box,16,1.82432
+max-seg-box,17,1.73578
+max-seg-box,18,1.64023
+max-seg-box,19,1.50748
+max-seg-box,20,1.44542
+max-seg-box,21,1.35454
+max-seg-box,22,1.33954
+max-seg-box,23,1.24208
+max-seg-box,24,1.22957
+max-seg-box,25,1.09948
+max-seg-box,26,1.16487
+max-seg-box,27,1.10306
+max-seg-box,28,1.08734
+max-seg-box,29,1.00351
+max-seg-box,30,0.96227
+max-seg-box,31,0.946311
+max-seg-box,32,0.907779
+max-seg-box,33,0.905689
+max-seg-box,34,0.867331
+max-seg-box,35,0.840805
+max-seg-box,36,0.831721
+max-seg-box,37,0.79567
+max-seg-box,38,0.781002
+max-seg-box,39,0.762362
+max-seg-box,40,0.764476
+max-seg-box,41,0.743216
+max-seg-box,42,0.722932
+max-seg-box,43,0.71696
+max-seg-box,44,0.688712
+max-seg-box,45,0.670646
+max-seg-box,46,0.704993
+max-seg-box,47,0.658357
+max-seg-box,48,0.642929
+max-seg-box,49,0.62328
+max-seg-box,50,0.694148
+max-seg-box,51,0.630784
+max-seg-box,52,0.605415
+max-seg-box,53,0.59621
+max-seg-box,54,0.6073
+max-seg-box,55,0.604424
+max-seg-box,56,0.569176
+max-seg-box,57,0.563132
+max-seg-box,58,0.558491
+max-seg-box,59,0.547574
+max-seg-box,60,0.544845
+max-seg-box,61,0.534279
+max-seg-box,62,0.525765
+max-seg-box,63,0.524665
+max-seg-box,64,0.514903
+max-top-strip,0,35.4578
+max-top-strip,1,45.0287
+max-top-strip,2,25.1088
+max-top-strip,3,19.651
+max-top-strip,4,13.8207
+max-top-strip,5,9.86716
+max-top-strip,6,7.7972
+max-top-strip,7,7.34862
+max-top-strip,8,6.74601
+max-top-strip,9,5.27804
+max-top-strip,10,4.75519
+max-top-strip,11,4.44719
+max-top-strip,12,4.02051
+max-top-strip,13,3.79565
+max-top-strip,14,3.55338
+max-top-strip,15,3.30882
+max-top-strip,16,3.07643
+max-top-strip,17,2.90965
+max-top-strip,18,2.6328
+max-top-strip,19,2.80487
+max-top-strip,20,2.34625
+max-top-strip,21,2.27399
+max-top-strip,22,2.1762
+max-top-strip,23,2.12947
+max-top-strip,24,2.2487
+max-top-strip,25,2.09238
+max-top-strip,26,2.13064
+max-top-strip,27,2.01865
+max-top-strip,28,1.85449
+max-top-strip,29,1.81417
+max-top-strip,30,1.57937
+max-top-strip,31,1.88544
+max-top-strip,32,1.69463
+max-top-strip,33,1.61935
+max-top-strip,34,1.45344
+max-top-strip,35,1.44653
+max-top-strip,36,1.25858
+max-top-strip,37,1.41622
+max-top-strip,38,1.45107
+max-top-strip,39,1.4023
+max-top-strip,40,1.63189
+max-top-strip,41,1.2941
+max-top-strip,42,1.17002
+max-top-strip,43,1.20375
+max-top-strip,44,1.35634
+max-top-strip,45,1.34448
+max-top-strip,46,1.24356
+max-top-strip,47,1.10978
+max-top-strip,48,1.15649
+max-top-strip,49,1.13507
+max-top-strip,50,1.15556
+max-top-strip,51,1.37554
+max-top-strip,52,0.995413
+max-top-strip,53,0.938885
+max-top-strip,54,1.015
+max-top-strip,55,1.33476
+max-top-strip,56,0.883815
+max-top-strip,57,1.27073
+max-top-strip,58,1.01833
+max-top-strip,59,1.10281
+max-top-strip,60,1.13417
+max-top-strip,61,1.47929
+max-top-strip,62,1.10735
+max-top-strip,63,0.939082
+max-top-strip,64,0.911625
+max-left-strip,0,47.0569
+max-left-strip,1,54.891
+max-left-strip,2,32.5783
+max-left-strip,3,20.618
+max-left-strip,4,16.0417
+max-left-strip,5,12.6546
+max-left-strip,6,11.0957
+max-left-strip,7,9.29956
+max-left-strip,8,8.58567
+max-left-strip,9,7.27954
+max-left-strip,10,6.58819
+max-left-strip,11,6.09756
+max-left-strip,12,5.77167
+max-left-strip,13,5.25506
+max-left-strip,14,4.88524
+max-left-strip,15,4.60446
+max-left-strip,16,4.546
+max-left-strip,17,4.1367
+max-left-strip,18,3.88944
+max-left-strip,19,3.7849
+max-left-strip,20,3.39374
+max-left-strip,21,3.60318
+max-left-strip,22,3.39734
+max-left-strip,23,3.24223
+max-left-strip,24,3.45221
+max-left-strip,25,3.30032
+max-left-strip,26,3.28209
+max-left-strip,27,3.02956
+max-left-strip,28,3.01848
+max-left-strip,29,3.17482
+max-left-strip,30,2.77769
+max-left-strip,31,3.32649
+max-left-strip,32,3.06321
+max-left-strip,33,2.85324
+max-left-strip,34,3.63182
+max-left-strip,35,2.67705
+max-left-strip,36,3.64528
+max-left-strip,37,2.98156
+max-left-strip,38,3.25615
+max-left-strip,39,3.27079
+max-left-strip,40,3.09239
+max-left-strip,41,4.06488
+max-left-strip,42,2.75744
+max-left-strip,43,3.34515
+max-left-strip,44,3.1426
+max-left-strip,45,3.25472
+max-left-strip,46,4.06844
+max-left-strip,47,2.79718
+max-left-strip,48,4.12934
+max-left-strip,49,3.11408
+max-left-strip,50,4.1388
+max-left-strip,51,3.04416
+max-left-strip,52,3.94659
+max-left-strip,53,4.89009
+max-left-strip,54,3.78596
+max-left-strip,55,5.72355
+max-left-strip,56,4.10716
+max-left-strip,57,4.64182
+max-left-strip,58,3.22506
+max-left-strip,59,5.65674
+max-left-strip,60,4.13747
+max-left-strip,61,5.36535
+max-left-strip,62,5.4921
+max-left-strip,63,5.90284
+max-left-strip,64,6.48505
+max-seg-box,0,26.4866
+max-seg-box,1,26.8117
+max-seg-box,2,15.3652
+max-seg-box,3,10.4176
+max-seg-box,4,7.38292
+max-seg-box,5,6.3631
+max-seg-box,6,4.88814
+max-seg-box,7,4.463
+max-seg-box,8,3.67008
+max-seg-box,9,3.20982
+max-seg-box,10,2.98931
+max-seg-box,11,2.74095
+max-seg-box,12,2.50414
+max-seg-box,13,2.2924
+max-seg-box,14,2.04408
+max-seg-box,15,1.96422
+max-seg-box,16,1.82515
+max-seg-box,17,1.68282
+max-seg-box,18,1.64011
+max-seg-box,19,1.50043
+max-seg-box,20,1.40897
+max-seg-box,21,1.36361
+max-seg-box,22,1.33474
+max-seg-box,23,1.25955
+max-seg-box,24,1.17901
+max-seg-box,25,1.18398
+max-seg-box,26,1.10563
+max-seg-box,27,1.07359
+max-seg-box,28,1.0236
+max-seg-box,29,0.979741
+max-seg-box,30,0.988012
+max-seg-box,31,0.959731
+max-seg-box,32,0.925164
+max-seg-box,33,0.890832
+max-seg-box,34,0.883634
+max-seg-box,35,0.872911
+max-seg-box,36,0.828356
+max-seg-box,37,0.816412
+max-seg-box,38,0.821231
+max-seg-box,39,0.777433
+max-seg-box,40,0.752554
+max-seg-box,41,0.745005
+max-seg-box,42,0.721317
+max-seg-box,43,0.708399
+max-seg-box,44,0.691423
+max-seg-box,45,0.693307
+max-seg-box,46,0.666938
+max-seg-box,47,0.650214
+max-seg-box,48,0.638755
+max-seg-box,49,0.661825
+max-seg-box,50,0.6357
+max-seg-box,51,0.604971
+max-seg-box,52,0.594492
+max-seg-box,53,0.616534
+max-seg-box,54,0.583784
+max-seg-box,55,0.600211
+max-seg-box,56,0.575896
+max-seg-box,57,0.57223
+max-seg-box,58,0.610181
+max-seg-box,59,0.568993
+max-seg-box,60,0.529588
+max-seg-box,61,0.551679
+max-seg-box,62,0.539676
+max-seg-box,63,0.518085
+max-seg-box,64,0.510831
+well-balanced,0, 24.5152
+well-balanced,1, 34.9992
+well-balanced,2, 17.9206
+well-balanced,3, 12.2309
+well-balanced,4, 9.44867
+well-balanced,5, 7.43064
+well-balanced,6, 5.97537
+well-balanced,7, 5.30077
+well-balanced,8, 4.64145
+well-balanced,9, 4.11093
+well-balanced,10, 3.66724
+well-balanced,11, 3.37463
+well-balanced,12, 3.10357
+well-balanced,13, 2.83108
+well-balanced,14, 2.59871
+well-balanced,15, 2.42142
+well-balanced,16, 2.28371
+well-balanced,17, 2.14077
+well-balanced,18, 2.01101
+well-balanced,19, 1.93018
+well-balanced,20, 1.80644
+well-balanced,21, 1.76135
+well-balanced,22, 1.65582
+well-balanced,23, 1.57253
+well-balanced,24, 1.52103
+well-balanced,25, 1.47016
+well-balanced,26, 1.42482
+well-balanced,27, 1.36084
+well-balanced,28, 1.30693
+well-balanced,29, 1.27869
+well-balanced,30, 1.20788
+well-balanced,31, 1.22307
+well-balanced,32, 1.17005
+well-balanced,33, 1.12532
+well-balanced,34, 1.08922
+well-balanced,35, 1.08508
+well-balanced,36, 1.04978
+well-balanced,37, 1.01738
+well-balanced,38, 0.982876
+well-balanced,39, 1.00578
+well-balanced,40, 0.953671
+well-balanced,41, 0.946372
+well-balanced,42, 0.930307
+well-balanced,43, 0.899565
+well-balanced,44, 0.883358
+well-balanced,45, 0.851367
+well-balanced,46, 0.874649
+well-balanced,47, 0.818775
+well-balanced,48, 0.86345
+well-balanced,49, 0.81351
+well-balanced,50, 0.799148
+well-balanced,51, 0.768094
+well-balanced,52, 0.787277
+well-balanced,53, 0.793469
+well-balanced,54, 0.7479
+well-balanced,55, 0.732078
+well-balanced,56, 0.732602
+well-balanced,57, 0.719717
+well-balanced,58, 0.706644
+well-balanced,59, 0.720428
+well-balanced,60, 0.677354
+well-balanced,61, 0.695191
+well-balanced,62, 0.667292
+well-balanced,63, 0.6572
+well-balanced,64, 0.647352
 
 

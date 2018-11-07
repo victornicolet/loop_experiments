@@ -23,30 +23,30 @@ struct MTLR {
     }
 
     MTLR(MTLR& s, split) : A(s.A), sum(0), mtlr(0), mtr(0), m(s.m){
-        c = new int[m] {0};
-        max_recs = new int[m] {0};
+        c = new int[s.m] {0};
+        max_recs = new int[s.m] {0};
         m = s.m;
 
     }
 
     void operator()(const blocked_range<long>& r ) {
         for (long i = r.begin(); i != r.end(); i++) {
-            sum = 0;
-            mtr = 0;
+            int _sum = INT_MIN;
+            int _mtr = INT_MIN;
             for (long j = 0; j < m; j++) {
-                sum += A[i][j];
-                c[j] += sum;
-                mtr = max(c[j], mtr);
+                _sum += A[i][j];
+                c[j] += _sum;
+                _mtr = max(c[j], _mtr);
                 max_recs[j] = max(max_recs[j], c[j]);
             }
-            mtlr = max(mtr, mtlr);
+            mtlr = max(_mtr, mtlr);
         }
     }
 
     void join(MTLR& r) {
         mtr = 0;
         for(long j = 0; j < m; j++){
-            c[j] = c[j] + r.c[j];
+            c[j] += r.c[j];
             max_recs[j] = max(max_recs[j], c[j] + r.max_recs[j]);
             mtr = max(mtr, max_recs[j]);
         }
@@ -56,10 +56,8 @@ struct MTLR {
 };
 
 
-struct mtlr_res {int* c; int mtr; int mtlr;};
 
-
-mtlr_res seq_implem(int **A, long m, long n) {
+int seq_implem(int **A, long m, long n) {
     int sum= 0;
     int mtr =0;
     int mtlr = 0;
@@ -76,7 +74,7 @@ mtlr_res seq_implem(int **A, long m, long n) {
         mtlr = max(mtr, mtlr);
     }
 
-    return {c, mtr, mtlr};
+    return mtlr;
 }
 
 
