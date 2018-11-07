@@ -1,3 +1,7 @@
+//
+// Created by victorn on 07/11/18.
+//
+
 #include <tbb/tbb.h>
 #include <iostream>
 #include "StopWatch.h"
@@ -8,63 +12,62 @@ using namespace std;
 using namespace tbb;
 
 
-struct MaxLeftRec {
+struct MaxLeftStrip {
     int **A;
     long m;
-    int rs;
-    int mlr;
-    int *rects;
+    int lsum;
+    int mls;
+    int *cols;
 
-    MaxLeftRec(int** _input, long rl) : A(_input), m(rl), rs(0), mlr(0) {
-      rects = new int[rl];
+    MaxLeftStrip(int **_input, long rl) : A(_input), m(rl), mls(INT_MIN), lsum(0) {
+        cols = new int[rl]{0};
     }
 
-    MaxLeftRec(MaxLeftRec& s, split) : mlr(0), rs(0), A(s.A), m(s.m) {
-      rects = new int[s.m];
+    MaxLeftStrip(MaxLeftStrip &s, split) : mls(0), A(s.A), m(s.m), lsum(0) {
+        cols = new int[s.m];
     }
 
-    void operator()( const blocked_range<long>& r ) {
-        int lrs = 0;
-        int lmlr = 0;
-
-        for(long i = r.begin(); i != r.end(); ++i) {
-            lrs = 0;
-            lmlr = 0;
-            for(long j = 0; j < m; j++) {
-                lrs += A[i][j];
-                rects[j] += lrs;
-                lmlr = max(lmlr, rects[j]);
+    void operator()(const blocked_range<long> &r) {
+        int _mls = INT_MIN;
+        for (long i = r.begin(); i != r.end(); ++i) {
+            int lsum = 0;
+            _mls = INT_MIN;
+            for (long j = 0; j < m; j++) {
+                cols[j] += A[i][j];
+                lsum += cols[j];
+                _mls = max(_mls, lsum);
             }
         }
+        mls = _mls;
     }
 
-    void join(MaxLeftRec& rhs) {
-        mlr = 0;
-        rs = rhs.rs;
-        for(long j = 0; j < m; j++) {
-            rects [j] += rhs.rects[j];
-            mlr = max(mlr, rects[j]);
+    void join(MaxLeftStrip &rhs) {
+        mls = 0;
+        lsum = 0;
+        for (long j = 0; j < m; j++) {
+            cols[j] += rhs.cols[j];
+            lsum += cols[j];
+            mls = max(lsum, mls);
         }
     }
-
 };
 
 int seq_implem(int **A, long m, long n) {
-    int rects[m] = {0};
-    int rs = 0;
-    int mlr = 0;
+    int cols[m] = {0};
+    int lsum = 0;
+    int mls = INT_MIN;
 
     for(long i = 0; i < n; ++i) {
-        rs = 0;
-        mlr = 0;
+        lsum  = 0;
+        mls = INT_MIN;
         for(long j = 0; j < m; j++) {
-            rs += A[i][j];
-            rects[j] += rs;
-            mlr = max(mlr, rects[j]);
+            cols[j] += A[i][j];
+            lsum += cols[j];
+            mls = max(mls, lsum);
         }
     }
 
-    return mlr;
+    return mls;
 }
 
 double do_seq(int **A, long m, long n) {
@@ -87,12 +90,12 @@ double do_par(int **input, long m, long n, int num_cores) {
     static task_scheduler_init init(task_scheduler_init::deferred);
     init.initialize(num_cores, UT_THREAD_DEFAULT_STACK_SIZE);
 
-    MaxLeftRec mm(input, m);
-    parallel_reduce(blocked_range<long>(0, n-1), mm);
+    MaxLeftStrip maxLeftStrip(input, m);
+    parallel_reduce(blocked_range<long>(0, n-1), maxLeftStrip);
 
     for(int i = 0; i < NUM_REPEAT ; i++){
         t.start();
-        parallel_reduce(blocked_range<long>(0, n-1), mm);
+        parallel_reduce(blocked_range<long>(0, n-1), maxLeftStrip);
         elapsed += t.stop();
     }
 
@@ -105,7 +108,7 @@ double do_par(int **input, long m, long n, int num_cores) {
 int main(int argc, char** argv) {
     // Data size:
     if(argc < 3) {
-        cout << "Usage:./ExpMaxLeftRec [NUM_ROWS] [NUM_COLS]" << endl;
+        cout << "Usage:./ExpMaxLeftStrip [NUM_ROWS] [NUM_COLS]" << endl;
         return  -1;
     }
 
@@ -127,7 +130,7 @@ int main(int argc, char** argv) {
             exp_time = do_seq(input, m, n);
         }
 
-        cout << "max-left-rect" << "," << num_threads << "," << exp_time << endl;
+        cout << "max-left-strip" << "," << num_threads << "," << exp_time << endl;
     }
 
     return 0;

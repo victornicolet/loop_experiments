@@ -58,13 +58,16 @@ colors = {
  'gradient1' : ('xkcd:green', '-'),
  'gradient2' : ('xkcd:pink', '-'),
  'max-dist' : ('mediumblue', '-'),
- 'increasing-ranges' : ('xkcd:brown', '-'),
+ 'increasing-ranges' : ('xkcd:forest green', '-'),
  'max-balanced-substr' : ('xkcd:red', '-'),
+ 'max-top-strip' : ('xkcd:turquoise', '-'),
  'max-bot-strip' : ('xkcd:teal', '-'),
+ 'max-left-strip' : ('xkcd:cyan', '-'),
  'max-seg-strip' : ('xkcd:aqua', '-'),
  'max-bottom-box' : ('xkcd:mustard', ':'),
- 'max-top-box' : ('xkcd:orange', ':'),
- 'max-left-rect' : ('xkcd:forest green', '-.'),
+ 'max-seg-box' : ('xkcd:light brown', ':'),
+ 'max-top-box' : ('xkcd:tan', ':'),
+ 'max-left-rect' : ('xkcd:brown', '-.'),
  'minmax' : ('xkcd:black', '-'),
  'minmax-col' : ('xkcd:salmon', '-'),
  'mode' : ('xkcd:lime', '-'),
@@ -73,7 +76,7 @@ colors = {
  'overlapping-ranges' : ('xkcd:navy blue', '-'),
  'pyramid-ranges' : ('xkcd:grey', '-'),
  'saddle-point' : ('xkcd:hot pink', '-'),
- 'well-balanced' : ('xkcd:violet', '--'),
+ 'well-balanced' : ('xkcd:violet', '--')
 }
 
 
