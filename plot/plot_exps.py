@@ -30,27 +30,6 @@ examples = all_groups.groupby(['name'])
 
 examples = [(s, f(x)) for s, x in examples]
 
-#
-# 2d-sorted
-# 2d-sum
-# gradient1
-# gradient2
-# increasing-ranges
-# max-balanced-substr
-# max-bot-strip
-# max-bottom-box
-# max-left-rect
-# max-seg-strip
-# max-top-box
-# minmax
-# minmax-col
-# mode
-# mtlr
-# mtrr
-# overlapping-ranges
-# pyramid-ranges
-# saddle-point
-# well-balanced
 
 colors = {
  '2d-sorted' : ('xkcd:sky blue', '-'),
