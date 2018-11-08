@@ -42,12 +42,12 @@ colors = {
  'increasing-ranges' : ('xkcd:forest green', '-', 'increasing ranges'),
  'max-balanced-substr' : ('xkcd:red', '-', 'balanced substr.'),
  'max-top-strip' : ('xkcd:turquoise', '-', 'max top strip'),
- 'max-bot-strip' : ('xkcd:teal', '-', 'max bot strip'),
+ 'max-bot-strip' : ('xkcd:teal', '-', 'max bot strip'), #redo
  'max-seg-strip' : ('xkcd:aqua', '-', 'max seg strip'),
  'max-bottom-box' : ('xkcd:mustard', ':', 'mbbs'),
  'max-seg-box' : ('xkcd:light brown', ':', 'max segment box'),
  'max-top-box' : ('xkcd:tan', ':', 'max top box'), # redo and suppress data: stddev is too high.
- 'max-left-rect' : ('xkcd:brown', '-.', 'max bot-left rect'),
+ 'max-left-rect' : ('xkcd:brown', '-.', 'max bot-left rect'), # redo
  'minmax' : ('xkcd:black', '-', 'min-max'),
  'minmax-col' : ('xkcd:salmon', '-', 'min-max-col'),
  'mode' : ('xkcd:lime', '-', 'mode'),
