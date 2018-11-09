@@ -73,16 +73,15 @@ for s, example in examples:
                  color=cex, ax=ax)
 
 ax.set_ylim(0, 35)
-ax.set_ylabel('speedup parallel / sequential input')
-ax.grid(b=True, color = (0.8,0.8,0.8))
+axes_fontsize=20
+legend_fontsize=10
+ax.set_ylabel('speedup parallel / sequential',fontsize=axes_fontsize)
+ax.set_xlabel('number of threads', fontsize=axes_fontsize)
+plt.setp(ax.get_xticklabels(), fontsize=axes_fontsize)
+plt.setp(ax.get_yticklabels(), fontsize=axes_fontsize)
+ax.grid(b=True, color=(0.8, 0.8, 0.8))
 
-# box = ax.get_position()
-# ax.set_position([box.x0, box.y0 + box.height * 0.1,
-#                  box.width, box.height * 0.9])
-#
-# # Put a legend below current axis
-# ax.legend(loc='lower center', bbox_to_anchor=(0.5, -0.05),
-#           fancybox=True, shadow=True, ncol=5)
-plt.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3,
-           ncol=5, mode="expand", borderaxespad=0.)
+
+plt.legend(bbox_to_anchor=(0.05, 0.75, 0.6, 1.102), loc=3,
+           ncol=3, mode="expand", borderaxespad=0., prop={'size': legend_fontsize})
 plt.show()
