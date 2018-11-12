@@ -47,6 +47,7 @@ colors = {
  'max-bottom-box' : ('xkcd:mustard', ':', 'mbbs'),
  'max-seg-box' : ('xkcd:light brown', ':', 'max segment box'),
  'max-top-box' : ('xkcd:tan', ':', 'max top box'), # redo and suppress data: stddev is too high.
+ 'max-left-box' : ('xkcd:pinkish tan', ':', 'max left box'), # redo and suppress data: stddev is too high.
  'max-left-rect' : ('xkcd:brown', '-.', 'max bot-left rect'), # redo
  'minmax' : ('xkcd:black', '-', 'min-max'),
  'minmax-col' : ('xkcd:salmon', '-', 'min-max-col'),

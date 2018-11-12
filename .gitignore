@@ -23,6 +23,7 @@ ExpMaxLeftStrip
 ExpMaxSegBox
 ExpMaxSegStrip
 ExpMaxTopBox
+ExpMaxLeftBox
 ExpMaxTopBoxInPar
 ExpMaxTopStrip
 ExpMinMax

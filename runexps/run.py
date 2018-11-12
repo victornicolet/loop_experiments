@@ -16,6 +16,7 @@ experiments = [
     ('ExpMaxTopBox', int(2e3), int(2e3), int(2e3)),
     ('ExpMaxBottomBox', int(2e3), int(2e3), int(1e3)),
     ('ExpMaxSegBox', int(2e3), int(2e3), int(1e3)),
+    ('ExpMaxLeftBox', int(2e3), int(2e3), int(2e3)),
     ('ExpMTLR', int(5e4), int(3e4), 0),
     ('ExpMTRR', int(5e4), int(3e4), 0),
     ('ExpSaddlePoint', int(15e4), int(1e4), 0),
