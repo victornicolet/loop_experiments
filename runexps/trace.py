@@ -59,6 +59,7 @@ colors = {
     'max-balanced-substr' : ('xkcd:red', '-', 'balanced substr.'),
     'max-top-strip' : ('xkcd:turquoise', '-', 'max top strip'),
     'max-bot-strip' : ('xkcd:teal', '-', 'max bot strip'), #redo
+    'max-left-box' : ('xkcd:pinkish tan', ':', 'max left box'),
     'max-seg-strip' : ('xkcd:aqua', '-', 'max seg strip'),
     'max-bottom-box' : ('xkcd:mustard', ':', 'mbbs'),
     'max-seg-box' : ('xkcd:light brown', ':', 'max segment box'),

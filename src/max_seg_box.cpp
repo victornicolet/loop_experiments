@@ -116,7 +116,7 @@ double do_par(int ***A, long l, long m, long n, int num_cores) {
 int main(int argc, char** argv) {
     // Data size:
     if(argc < 4) {
-        cout << "Usage:./ExpMaxTopBox [NUM_ROWS] [NUM_COLS] [DEPTH]" << endl;
+        cout << "Usage:./ExpMaxSegBox [NUM_ROWS] [NUM_COLS] [DEPTH]" << endl;
         return  -1;
     }
 

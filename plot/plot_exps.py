@@ -34,21 +34,21 @@ examples = all_groups.groupby(['name'])
 examples = [(s, f(x)) for s, x in examples]
 
 colors = {
- '2d-sorted' : ('xkcd:sky blue', '-', 'sorted'), # high stddev, redo with larger input?
- '2d-sum'  : ('xkcd:purple', '-', 'sum'), # high stddev, redo with larger input?
+ '2d-sorted' : ('xkcd:sky blue', '-', 'sorted'),
+ '2d-sum'  : ('xkcd:purple', '-', 'sum'),
  'gradient1' : ('xkcd:green', '-', 'vertical grad.'),
  'gradient2' : ('xkcd:pink', '-', 'diagonal grad.'),
  'max-dist' : ('mediumblue', '-', 'max dist'),
  'increasing-ranges' : ('xkcd:forest green', '-', 'increasing ranges'),
  'max-balanced-substr' : ('xkcd:red', '-', 'balanced substr.'),
  'max-top-strip' : ('xkcd:turquoise', '-', 'max top strip'),
- 'max-bot-strip' : ('xkcd:teal', '-', 'max bot strip'), #redo
+ 'max-bot-strip' : ('xkcd:teal', '-', 'max bot strip'),
  'max-seg-strip' : ('xkcd:aqua', '-', 'max seg strip'),
  'max-bottom-box' : ('xkcd:mustard', ':', 'mbbs'),
  'max-seg-box' : ('xkcd:light brown', ':', 'max segment box'),
- 'max-top-box' : ('xkcd:tan', ':', 'max top box'), # redo and suppress data: stddev is too high.
- 'max-left-box' : ('xkcd:pinkish tan', ':', 'max left box'), # redo and suppress data: stddev is too high.
- 'max-left-rect' : ('xkcd:brown', '-.', 'max bot-left rect'), # redo
+ 'max-top-box' : ('xkcd:tan', ':', 'max top box'),
+ 'max-left-box' : ('xkcd:pinkish tan', ':', 'max left box'),
+ 'max-left-rect' : ('xkcd:brown', '-.', 'max bot-left rect'),
  'minmax' : ('xkcd:black', '-', 'min-max'),
  'minmax-col' : ('xkcd:salmon', '-', 'min-max-col'),
  'mode' : ('xkcd:lime', '-', 'mode'),
