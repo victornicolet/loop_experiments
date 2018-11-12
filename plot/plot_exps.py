@@ -2,9 +2,9 @@ import sys
 import pandas as pd
 import matplotlib.pyplot as plt
 
-DATAFILE = '../data/explog_compsbk2.csv'
+DATAFILE = sys.argv[1]
 
-MODE_64 = len(sys.argv) > 1
+MODE_64 = len(sys.argv) > 2
 
 if MODE_64:
     best_num_threads = [0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,24,28,32,40,48,52,64]

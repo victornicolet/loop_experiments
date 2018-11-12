@@ -71,13 +71,11 @@ int seq_implem(int **A, long m, long n) {
     }
     for (long i = 0; i < n; i++) {
         long j2 = 0;
-        int acc_aux = 0;
         int mtr = 0;
         for (long j = 0; j < m; j++) {
             c[j] += A[i][j];
             mtr = max(mtr + c[j], 0);
             j2 = m - j - 1;
-            acc_aux += c[j2] + A[i][j2];
         }
         mtrr = max(mtr, mtrr);
     }

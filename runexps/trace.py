@@ -17,7 +17,7 @@ with open(data_filename, 'a+') as myoutfile:
     myoutfile.flush()
     call(["./" + examplename, str(n), str(m), str(l)], stdout=myoutfile)
 
-print("========= EXPERIMENTS FINSHED ==============")
+print("========= EXPERIMENTS FINISHED ==============")
 
 best_num_threads = [0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,24,28,32,40,48,52,64]
 

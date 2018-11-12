@@ -14,13 +14,16 @@ struct MaxLeftRec {
     int rs;
     int mlr;
     int *rects;
+    int *mts_rects;
 
     MaxLeftRec(int** _input, long rl) : A(_input), m(rl), rs(0), mlr(0) {
-      rects = new int[rl];
+        rects = new int[rl];
+        mts_rects = new int[rl];
     }
 
     MaxLeftRec(MaxLeftRec& s, split) : mlr(0), rs(0), A(s.A), m(s.m) {
-      rects = new int[s.m];
+        rects = new int[s.m];
+        mts_rects = new int[s.m];
     }
 
     void operator()( const blocked_range<long>& r ) {
@@ -33,6 +36,7 @@ struct MaxLeftRec {
             for(long j = 0; j < m; j++) {
                 lrs += A[i][j];
                 rects[j] += lrs;
+                mts_rects[j] = max(mts_rects[j] + lrs, 0);
                 lmlr = max(lmlr, rects[j]);
             }
         }
@@ -43,6 +47,7 @@ struct MaxLeftRec {
         rs = rhs.rs;
         for(long j = 0; j < m; j++) {
             rects [j] += rhs.rects[j];
+            mts_rects [j] = max(rhs.mts_rects[j], mts_rects[j] + rhs.rects[j]);
             mlr = max(mlr, rects[j]);
         }
     }
@@ -50,7 +55,7 @@ struct MaxLeftRec {
 };
 
 int seq_implem(int **A, long m, long n) {
-    int rects[m] = {0};
+    int mts_rects[m] = {0};
     int rs = 0;
     int mlr = 0;
 
@@ -59,8 +64,8 @@ int seq_implem(int **A, long m, long n) {
         mlr = 0;
         for(long j = 0; j < m; j++) {
             rs += A[i][j];
-            rects[j] += rs;
-            mlr = max(mlr, rects[j]);
+            mts_rects[j] = max(mts_rects[j] + rs, 0);
+            mlr = max(mlr, mts_rects[j]);
         }
     }
 
