@@ -34,6 +34,7 @@ ExpIncreasingRanges
 ExpIncreasingRange
 ExpPyramidRanges
 ExpPyramidRange
+ExpIntersectingRanges
 ExpSaddlePoint
 ExpWellBalanced
 Makefile
@@ -41,4 +42,6 @@ NestedLoopsExperiments.cbp
 OMPExpMaxTopBox
 cmake-build-debug/
 cmake_install.cmake
+data/trace-*
 venv/
+src/param*

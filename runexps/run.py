@@ -22,6 +22,7 @@ experiments = [
     ('ExpMode', int(7e4), 0, 0),
     ('ExpOverlappingRanges', int(2e5), int(1e4), 0),
     ('ExpPyramidRanges', int(2e5), int(1e4), 0),
+    ('ExpIntersectingRanges', int(2e4), 0, 0),
     ('ExpIncreasingRanges', int(2e5), int(1e4), 0),
     ('ExpMaxBalSub', int(5e4), 0, 0),
     ('ExpWellBalanced', int(2e5), int(1e4), 0)

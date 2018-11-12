@@ -34,6 +34,7 @@ add_executable(ExpPyramidRanges src/pyramid_range.cpp  ${SOURCE_FILES})
 add_executable(ExpIncreasingRanges src/increasing_range.cpp ${SOURCE_FILES})
 add_executable(ExpMaxBalSub src/max_balanced_substr.cpp ${SOURCE_FILES})
 add_executable(ExpWellBalanced src/well_balanced.cpp ${SOURCE_FILES})
+add_executable(ExpIntersectingRanges src/intersecting_ranges.cpp ${SOURCE_FILES})
 # OMP Experiment: compare TBB / OpenMP performance on a few benchmarks
 add_executable(OMPExpMaxTopBox src/omp_mtb.cpp ${SOURCE_FILES})
 

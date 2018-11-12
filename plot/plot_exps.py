@@ -56,6 +56,7 @@ colors = {
  'mtrr' : ('xkcd:bright green', '-.', 'max top-right rect'),
  'overlapping-ranges' : ('xkcd:navy blue', '-', 'overlapping r.'),
  'pyramid-ranges' : ('xkcd:grey', '-', 'pyramid r.'),
+ 'intersecting-ranges' : ('xkcd:deep lilac', '-', 'intersecting r.'),
  'saddle-point' : ('xkcd:hot pink', '-', 'saddle point'),
  'well-balanced' : ('xkcd:violet', '--', 'wb (Sec 2.1)')
 }
