@@ -29,13 +29,17 @@ struct MaxLeftBox {
 
     void operator()(const blocked_range<long> &r) {
         int _mls = INT_MIN;
-        for (long i = r.begin(); i != r.end(); ++i) {
+        int lsum = 0;
+        int psum = 0;
 
-            int lsum = 0;
+        for (long i = r.begin(); i != r.end(); ++i) {
             _mls = INT_MIN;
-            int psum = 0;
+            lsum = 0;
 
             for (long j = 0; j < m; j++) {
+
+                psum = 0;
+
                 for(long k=0; k<l; k++) {
                     psum += A[i][j][k];
                 }
@@ -62,12 +66,16 @@ struct MaxLeftBox {
 int seq_implem(int ***A, long l, long m, long n) {
     int cols[m] = {0};
     int mls = INT_MIN;
+    int lsum  = 0;
+    int psum = 0;
 
     for(long i = 0; i < n; ++i) {
-        int lsum  = 0;
+        lsum = 0;
         mls = INT_MIN;
         for(long j = 0; j < m; j++) {
-            int psum = 0;
+
+            psum = 0;
+
             for(long k = 0; k < l; k++) {
                 psum += A[i][j][k];
             }

@@ -19,7 +19,7 @@ all_groups = data.groupby(['name', 'threads']).agg(data_summary)
 all_groups.columns = ["_".join(x) for x in all_groups.columns.ravel()]
 all_groups = all_groups.reset_index()
 
-
+print("Name | Mean speedup | Seq time stddev | x16 tmean | x16 stddev")
 def f(example):
     def spdu(s, x):
         if x != 0:
@@ -28,11 +28,14 @@ def f(example):
             return 1.
 
     seq_time = example[example['threads'] == 0]['time_mean'].sum()
+    seq_time_std = example[example['threads'] == 0]['time_std'].sum()
     a = example['time_mean'].map(lambda x: spdu(seq_time, x))
     size_group = example.assign(speedup_mean=a)
     thread16 = size_group[size_group['threads'] == 16]['speedup_mean'].iloc[0]
     thread16_stddev = size_group[size_group['threads'] == 16]['time_std'].iloc[0]
-    print(size_group['name'].iloc[0], thread16, thread16_stddev)
+    thread16_tmean = size_group[size_group['threads'] == 16]['time_mean'].iloc[0]
+    perc_stddev = thread16_stddev / thread16_tmean
+    print(size_group['name'].iloc[0], thread16, seq_time_std, thread16_tmean, thread16_stddev, perc_stddev)
     return size_group
 
 examples = all_groups.groupby(['name'])
