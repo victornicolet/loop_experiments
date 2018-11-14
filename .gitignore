@@ -38,6 +38,8 @@ ExpPyramidRange
 ExpIntersectingRanges
 ExpSaddlePoint
 ExpWellBalanced
+OMPExpMaxBotBox
+OMPExpMaxBottomStrip
 Makefile
 NestedLoopsExperiments.cbp
 OMPExpMaxTopBox

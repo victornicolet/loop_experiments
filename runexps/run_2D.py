@@ -3,10 +3,7 @@ from subprocess import call
 
 
 sizes_distrib = [
-    [10, 5],
-    [5, 10],
-    [5, 5],
-    [40, 5],
+    [40, 5]
 ]
 
 sizes_factor = 6000
@@ -18,4 +15,5 @@ for i in range(0, 10):
     for n, m in sizes:
         with open('data/explog_2d.csv', 'a+') as myoutfile:
             print("SIZE: %i x %i.\n" % (n, m))
-            call(["./" + "ExpGlobalBal", str(n), str(m)], stdout=myoutfile)
+            # call(["./" + "ExpGlobalBal", str(n), str(m)], stdout=myoutfile)
+            call(["./" + "OMPExpMaxBottomStrip", str(n), str(m)], stdout=myoutfile)

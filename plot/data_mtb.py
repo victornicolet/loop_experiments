@@ -5,13 +5,13 @@ DATAFILE = '../data/explog_omp_mtb.csv'
 
 
 data = pd.read_csv(DATAFILE, sep=",").drop(['ExpName'], axis=1)
-data_summary = { 'OMP_TIME': ['mean', 'std'],'TBB_TIME': ['mean', 'std']}
+data_summary = {'OMP_TIME': ['mean', 'std'], 'TBB_TIME': ['mean', 'std']}
 
 all_groups = data.groupby(['N', 'M', 'L', 'NUM_THREADS']).agg(data_summary)
 all_groups.columns = ["_".join(x) for x in all_groups.columns.ravel()]
 all_groups = all_groups.reset_index()
 
-def f(size_group):
+def f(s,size_group):
     def spdu(s, x):
         if x != 0:
             return s/x
@@ -21,11 +21,14 @@ def f(size_group):
     a = size_group['TBB_TIME_mean'].map(lambda x: spdu(seq_time, x))
     b = size_group['OMP_TIME_mean'].map(lambda x: spdu(seq_time, x))
     size_group = size_group.assign(TBB_TIME_mean_speedup=a, OMP_TIME_mean_speedup=b)
+    tbb_thread16 = size_group[size_group['NUM_THREADS'] == 16]['TBB_TIME_mean_speedup'].iloc[0]
+    omp_thread16 = size_group[size_group['NUM_THREADS'] == 16]['OMP_TIME_mean_speedup'].iloc[0]
+    print(s, tbb_thread16, omp_thread16)
     return size_group
 
 size_groups = all_groups.groupby(['N', 'M', 'L'])
 
-size_groups = [(s, f(x)) for s, x in size_groups]
+size_groups = [(s, f(s,x)) for s, x in size_groups]
 
 
 fig = plt.figure()

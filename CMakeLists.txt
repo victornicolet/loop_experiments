@@ -37,4 +37,7 @@ add_executable(ExpWellBalanced src/well_balanced.cpp ${SOURCE_FILES})
 add_executable(ExpIntersectingRanges src/intersecting_ranges.cpp ${SOURCE_FILES})
 # OMP Experiment: compare TBB / OpenMP performance on a few benchmarks
 add_executable(OMPExpMaxTopBox src/omp_mtb.cpp ${SOURCE_FILES})
+add_executable(OMPExpMaxBotBox src/omp_max_bot_box.cpp ${SOURCE_FILES})
+add_executable(OMPExpMaxBottomStrip src/omp_max_bottom_strip.cpp ${SOURCE_FILES})
+# Test parallel solution with inner loops paralellized
 add_executable(ExpMaxTopBoxInPar src/max_top_box_in_par.cpp ${SOURCE_FILES})
