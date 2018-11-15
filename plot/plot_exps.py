@@ -43,44 +43,54 @@ examples = all_groups.groupby(['name'])
 examples = [(s, f(x)) for s, x in examples]
 
 colors = {
- '2d-sorted' : ('xkcd:sky blue', '-', 'sorted'),
- '2d-sum'  : ('xkcd:purple', '-', 'sum'),
- 'gradient1' : ('xkcd:green', '-', 'vertical grad.'),
- 'gradient2' : ('xkcd:pink', '-', 'diagonal grad.'),
- 'max-dist' : ('mediumblue', '-', 'max dist'),
- 'increasing-ranges' : ('xkcd:forest green', '-', 'increasing ranges'),
- 'max-balanced-substr' : ('xkcd:red', '-', 'balanced substr.'),
- 'max-top-strip' : ('xkcd:turquoise', '-', 'max top strip'),
- 'max-bot-strip' : ('xkcd:teal', '-', 'max bot strip'),
- 'max-seg-strip' : ('xkcd:aqua', '-', 'max seg strip'),
- 'max-bottom-box' : ('xkcd:mustard', ':', 'mbbs'),
- 'max-seg-box' : ('xkcd:light brown', ':', 'max segment box'),
- 'max-top-box' : ('xkcd:tan', ':', 'max top box'),
- 'max-left-box' : ('xkcd:pinkish tan', ':', 'max left box'),
- 'max-left-rect' : ('xkcd:brown', '-.', 'max bot-left rect'),
- 'minmax' : ('xkcd:black', '-', 'min-max'),
- 'minmax-col' : ('xkcd:salmon', '-', 'min-max-col'),
- 'mode' : ('xkcd:lime', '-', 'mode'),
- 'max-left-strip' : ('xkcd:magenta', '-.', 'max left strip'),
- 'mtlr' : ('xkcd:indigo', '-.', 'mtlr (Sec 2.2)'),
- 'mtrr' : ('xkcd:bright green', '-.', 'max top-right rect'),
- 'overlapping-ranges' : ('xkcd:navy blue', '-', 'overlapping r.'),
- 'pyramid-ranges' : ('xkcd:grey', '-', 'pyramid r.'),
- 'intersecting-ranges' : ('xkcd:deep lilac', '-', 'intersecting r.'),
- 'saddle-point' : ('xkcd:hot pink', '-', 'saddle point'),
- 'well-balanced' : ('xkcd:violet', '--', 'wb (Sec 2.1)')
+ '2d-sorted' :           ('xkcd:grey',         ':', 'sorted',            ',', 2),
+ '2d-sum'  :             ('xkcd:purple',       ':', 'sum',               ',', 2),
+ 'gradient1' :           ('xkcd:green',        ':', 'vertical grad.',    ',', 2),
+ 'gradient2' :           ('xkcd:pink',         ':', 'diagonal grad.',    ',', 2),
+ 'minmax' :              ('xkcd:black',        ':', 'min-max',           ',', 2),
+ 'max-dist' :            ('mediumblue',        ':', 'max dist',          ',', 2),
+ 'increasing-ranges' :   ('xkcd:forest green', ':', 'increasing ranges', ',', 2),
+ 'max-balanced-substr' : ('xkcd:red',          ':', 'balanced substr.',  ',', 2),
+ 'max-top-strip' :       ('xkcd:turquoise',    ':', 'max top strip',     ',', 2),
+ 'max-bot-strip' :       ('xkcd:teal',         ':', 'max bot strip',     ',', 2),
+ 'max-seg-strip' :       ('xkcd:aqua',         ':', 'max seg strip',     ',', 2),
+
+ #    3D, scalar examples
+ 'max-bottom-box' : ('xkcd:rust',          '--', 'mbbs',            ',', 3),
+ 'max-seg-box' :    ('xkcd:blue',          '--', 'max segment box', ',', 3),
+ 'max-top-box' :    ('xkcd:bluish green',  '--', 'max top box',     ',', 3),
+ #    Linear stv
+ 'max-left-box' : (  'xkcd:aqua',        '-.', 'max left box',      ',', 2),
+ 'max-left-rect' : ( 'xkcd:brown',       '-.', 'max bot-left rect', ',', 2),
+ 'minmax-col' : (    'xkcd:salmon',      '-.', 'min-max-col',       ',', 2),
+ 'max-left-strip' : ('xkcd:magenta',     '-.', 'max left strip',    ',', 2),
+ 'mtlr' : (          'xkcd:indigo',      '-.', 'mtlr (Sec 2.2)',    ',', 2),
+ 'mtrr' : (          'xkcd:bright green','-.', 'max top-right rect',',', 2),
+ 'saddle-point' : (  'xkcd:hot pink',     '-', 'saddle point',      ',', 2),
+ #    'ranges' examples
+ 'overlapping-ranges' :  ('xkcd:navy blue',  '-', 'overlapping r.', ',', 2),
+ 'pyramid-ranges' :      ('xkcd:grey',       '-', 'pyramid r.',     ',', 2),
+ 'intersecting-ranges' : ('xkcd:deep lilac', '-', 'intersecting r.',',', 2),
+ 'mode' :                ('xkcd:lime',       '-', 'mode',           ',', 2),
+ #  Well balanced
+ 'well-balanced' : (      'xkcd:violet',     '-', 'bp (Sec 2.1)',  'x', 3)
 }
 
 
 
-fig = plt.figure()
+fig = plt.figure(figsize=(14, 10), dpi=80, facecolor='w', edgecolor='k')
 ax = fig.add_subplot(1,1,1)
 # ax.plot(best_num_threads, best_num_threads, color=(0,0,0), linestyle='-')
+
 for s, example in examples:
-    cex, lex , lege = colors[str(s)]
+    example.to_csv('experiments.csv', header=None, index=None, sep=',', mode='a')
+    cex, lex , lege, mrk, elw = colors[str(s)]
     example.plot(x='threads', y=['speedup_mean'],
                  label=[lege],
+                 marker=mrk,
+                 markersize=6,
                  linestyle=lex,
+                 lw=elw,
                  color=cex, ax=ax)
 
 if MODE_64:
@@ -89,7 +99,7 @@ else:
     ax.set_ylim(0, 35)
 
 axes_fontsize=20
-legend_fontsize=10
+legend_fontsize=16
 
 ax.set_ylabel('speedup parallel / sequential',fontsize=axes_fontsize)
 ax.set_xlabel('number of threads', fontsize=axes_fontsize)
@@ -98,6 +108,8 @@ plt.setp(ax.get_yticklabels(), fontsize=axes_fontsize)
 ax.grid(b=True, color=(0.8, 0.8, 0.8))
 
 
-plt.legend(bbox_to_anchor=(0.05, 0.75, 0.6, 1.102), loc=3,
-           ncol=3, mode="expand", borderaxespad=0., prop={'size': legend_fontsize})
+plt.legend(bbox_to_anchor=(0.01, 0.55, 0.45, 1.102), loc=3,
+           ncol=2, mode="expand", borderaxespad=0., prop={'size': legend_fontsize})
+fig.tight_layout()
+plt.savefig("/home/victorn/repos/consynth/pldi19/figures/graphs/chart.pdf")
 plt.show()
