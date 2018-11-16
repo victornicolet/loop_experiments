@@ -51,9 +51,9 @@ colors = {
  'max-dist' :            ('mediumblue',        ':', 'max dist',          ',', 2),
  'increasing-ranges' :   ('xkcd:forest green', ':', 'increasing ranges', ',', 2),
  'max-balanced-substr' : ('xkcd:red',          ':', 'balanced substr.',  ',', 2),
- 'max-top-strip' :       ('xkcd:turquoise',    ':', 'max top strip',     ',', 2),
- 'max-bot-strip' :       ('xkcd:teal',         ':', 'max bot strip',     ',', 2),
- 'max-seg-strip' :       ('xkcd:aqua',         ':', 'max seg strip',     ',', 2),
+ 'max-top-strip' :       ('xkcd:turquoise',    '-', 'max top strip',     ',', 2),
+ 'max-bot-strip' :       ('xkcd:teal',         '-', 'max bot strip',     ',', 2),
+ 'max-seg-strip' :       ('xkcd:chocolate',    '-', 'max seg strip',     ',', 2),
 
  #    3D, scalar examples
  'max-bottom-box' : ('xkcd:rust',          '--', 'mbbs',            ',', 3),
@@ -64,9 +64,9 @@ colors = {
  'max-left-rect' : ( 'xkcd:brown',       '-.', 'max bot-left rect', ',', 2),
  'minmax-col' : (    'xkcd:salmon',      '-.', 'min-max-col',       ',', 2),
  'max-left-strip' : ('xkcd:magenta',     '-.', 'max left strip',    ',', 2),
- 'mtlr' : (          'xkcd:indigo',      '-.', 'mtlr (Sec 2.2)',    ',', 2),
+ 'mtlr' : (          'xkcd:indigo',      '-.', 'mtls (Sec 2.2)',    ',', 2),
  'mtrr' : (          'xkcd:bright green','-.', 'max top-right rect',',', 2),
- 'saddle-point' : (  'xkcd:hot pink',     '-', 'saddle point',      ',', 2),
+ 'saddle-point' : (  'xkcd:black',     '-.', 'saddle point',      ',', 2),
  #    'ranges' examples
  'overlapping-ranges' :  ('xkcd:navy blue',  '-', 'overlapping r.', ',', 2),
  'pyramid-ranges' :      ('xkcd:grey',       '-', 'pyramid r.',     ',', 2),
